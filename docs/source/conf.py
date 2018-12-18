@@ -14,6 +14,7 @@
 #
 import os
 import sys
+from sphinx_astropy.conf import *
 sys.path.insert(0, os.path.abspath('../..'))
 
 
