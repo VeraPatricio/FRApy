@@ -14,9 +14,16 @@
 #
 import os
 import sys
-from sphinx_astropy.conf import *
+
 sys.path.insert(0, os.path.abspath('../..'))
 
+import astropy
+
+try:
+    from sphinx_astropy.conf.v1 import *  # noqa
+except ImportError:
+    print('ERROR: the documentation requires the sphinx-astropy package to be installed')
+    sys.exit(1)
 
 # -- Project information -----------------------------------------------------
 
