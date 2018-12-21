@@ -23,7 +23,7 @@ setuptools.setup(
                         'reproject',
                         'emcee',
                         'pickle',
-                        'matplotlib'
+                        'matplotlib',
                         'corner',
                         ],
 )
