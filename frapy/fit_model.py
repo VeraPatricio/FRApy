@@ -5,6 +5,7 @@ import emcee
 import pickle
 
 from astropy.io import fits
+from .utils import mask_data,bin_data,update_parameters_values
 
 
 __all__ = ['fit_model']
@@ -14,10 +15,14 @@ def fit_model(obs,model,parameters,outputname,nsteps=1000,nwalkers=24,mask=None,
     Routine that fits the observations using a given model and the emcee sampler.
 
     We make use of the emcee sampler (http://dfm.io/emcee/current/) to fit the free parameters of
-    the model to the observations. We are maximising the following log-likelihood function:
+    the model to the observations. We are maximising the following log-probabiluty function:
 
-    lnp = COMPLETE THIS
-
+    $$ln(probability) = ln(priors) + ln(likelihood)$$
+        
+    with the log likelohood function as:
+   
+    $$ln(likelihood) = -\frac{1}{2} ( \frac{(data-model)^2}{uncertainty^2} + ln(2 pi uncertainty^2))$$
+   
     Both the model and the observations should be instances of the Observations and BaseModel 
     classes from frapy.
 
@@ -132,19 +137,17 @@ def fit_model(obs,model,parameters,outputname,nsteps=1000,nwalkers=24,mask=None,
     for i, result in enumerate(sampler.sample(initial_position, iterations=nsteps)):
         if float(i)/nsteps % 0.1 == 0:
             print("%d %%"%(float(i)/nsteps * 100.))
-
             
-    # Save results       
+    # Save results
+    results = {}
+    results['chain'] = sampler.chain
+    results['lnprobability'] = sampler.lnprobability
+    results['parameters_order'] = list(parameters.keys())
+    results['mask'] = mask
+    results['bin_map'] = binning_map
+    results['obs'] = obs
+    results['model'] = model       
     with open(outputname+".pickle",'wb') as f:
-        results = {}
-        results['chain'] = sampler.chain
-        results['lnprobability'] = sampler.lnprobability
-        results['parameters'] = parameters
-        results['parameters_order'] = parameters.keys()
-        results['mask'] = mask
-        results['bin_map'] = binning_map
-        results['obs'] = obs
-        results['model'] = model
         pickle.dump(results,f)
 
     print('Execution time: %0.4f minutes'%(float(time.time() - start_time)/60))

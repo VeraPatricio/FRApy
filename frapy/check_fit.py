@@ -3,7 +3,7 @@ import matplotlib.pylab as plt
 import pickle
 import corner
 
-from utils import bin_data,mask_data
+from .utils import bin_data,mask_data
 
 
 
@@ -32,13 +32,12 @@ class Output(object):
 
         self.chain = results['chain']
         self.lnprobability = results['lnprobability'] 
-        self.parameters = results['parameters']
         self.parameters_names = results['parameters_order']
         self.obs = results['obs']
         self.model = results['model']
         self.binning_map = results['bin_map']
         self.mask = results['mask']
-        self.ndim = len(results['parameters'].keys())
+        self.ndim = len(results['parameters_order'])
 
     def check_convergence(self):
         ''' Plots the walkers positions at each iteration for each parameter as well as 
@@ -65,10 +64,9 @@ class Output(object):
         """       
         samples = self.chain[:, start:, :].reshape((-1, self.ndim))
 
-        best_par = map(lambda v: (v[1], v[2]-v[1], v[1]-v[0]),zip(*np.percentile(samples, [16, 50, 84],axis=0)))
+        #best_par = map(lambda v: (v[1], v[2]-v[1], v[1]-v[0]),zip(*np.percentile(samples, [16, 50, 84],axis=0)))
 
-        fig = corner.corner(samples, labels=self.parameters_names,truths=np.array(best_par).T[0],\
-                            quantiles=[0.16, 0.5, 0.84], show_titles=True)
+        fig = corner.corner(samples, labels=self.parameters_names,quantiles=[0.16, 0.5, 0.84], show_titles=True)
 
 
     def best_parameters(self,start=0):
@@ -79,7 +77,7 @@ class Output(object):
 
         best_par = map(lambda v: (v[1], v[2]-v[1], v[1]-v[0]),zip(*np.percentile(samples, [16, 50, 84],axis=0)))
 
-        best_parameters = self.parameters.copy()
+        best_parameters = {}
         for par_name,v in zip(self.parameters_names,best_par):
             best_parameters.update({par_name : {'value':v[0],'min':v[1],'max': v[2]}})
             print('%s %0.4f$^{+%0.4f}_{-%0.4f}$'%(par_name,v[0],v[1],v[2]))
@@ -162,7 +160,8 @@ class Output(object):
         data_unc = bin_data(self.obs.unc,self.binning_map)
         convolved_model = bin_data(convolved_model,self.binning_map)
 
-        chi2 = np.nansum((data_obs-convolved_model)**2/data_unc**2)
+        chi2_image = (dbata_obs-convolved_model)**2/data_unc**2
+        chi2 = np.nansum(chi2_image[np.where(np.isfinite(chi2_image))])
         inv_sigma2 = 1.0/(data_unc**2)
         lnp = -0.5*(np.nansum((data_obs-convolved_model)**2*inv_sigma2- np.log(inv_sigma2*np.sqrt(2*np.pi))))
         bic = free_par*np.log(len(data_obs)) - 2*lnp

@@ -1,94 +1,260 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Welcome to FRApy’s documentation! &#8212; FRApy beta documentation</title>
-    <link rel="stylesheet" href="_static/bootstrap-astropy.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="_static/sidebar.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
-<script type="text/javascript" src="_static/copybutton.js"></script>
-
-
-  </head><body>
-<div class="topbar">
-  <a class="brand" title="Documentation Home" href="#"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
-  <ul>
-    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
-    <li><a title="General Index" href="genindex.html">Index</a></li>
-    <li><a title="Module Index" href="py-modindex.html">Modules</a></li>
-    <li>
-      
-      
-<form action="search.html" method="get">
-  <input type="text" name="q" placeholder="Search" />
-  <input type="hidden" name="check_keywords" value="yes" />
-  <input type="hidden" name="area" value="default" />
-</form>
-      
-    </li>
-  </ul>
-</div>
-
-<div class="related">
-    <h3>Navigation</h3>
-    <ul>
-      <li>
-	<a href="#">FRApy beta documentation</a>
-	 &#187;
-      </li>
-      
-       
-    </ul>
-</div>
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FRApy: Fitting Resolved Arcs with python &mdash; FRApy beta documentation</title>
   
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+  
+  
+    <link rel="shortcut icon" href="_static/astropy_logo.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> FRApy
+          
+
+          
+          </a>
+
+          
             
-  <div class="section" id="welcome-to-frapy-s-documentation">
-<h1>Welcome to FRApy’s documentation!<a class="headerlink" href="#welcome-to-frapy-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>FRApy - Fitting Resolved Arcs with python - is python code designed to fit gravitational arcs in image plane with analytical modes, such as metallicity gradients and velocity fields, taking into account the lensing distortions.</p>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
 </div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">FRApy: Fitting Resolved Arcs with python</a><ul>
+<li><a class="reference internal" href="#intro">Intro</a><ul>
+<li><a class="reference internal" href="#graviatational-arcs">Graviatational arcs</a></li>
+<li><a class="reference internal" href="#what-you-ll-need">What you’ll need</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#install">Install</a></li>
+<li><a class="reference internal" href="#quick-start">Quick start</a></li>
+<li><a class="reference internal" href="#mode-in-depth-demos">Mode in depth demos</a><ul>
+<li><a class="reference internal" href="#fitting-a-metallicity-gradient">Fitting  a Metallicity Gradient</a></li>
+<li><a class="reference internal" href="#fitting-velocity-field">Fitting Velocity Field</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#authors-and-citations">Authors and Citations</a></li>
+<li><a class="reference internal" href="#code-documentation">Code Documentation</a><ul>
+<li><a class="reference internal" href="#module-frapy.observations">Observations</a></li>
+<li><a class="reference internal" href="#module-frapy.models">Models</a></li>
+<li><a class="reference internal" href="#module-frapy.fit_model">Fitting</a></li>
+<li><a class="reference internal" href="#module-frapy.check_fit">Explore the output</a></li>
+<li><a class="reference internal" href="#module-frapy.utils">Miscelaneous</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">FRApy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>FRApy: Fitting Resolved Arcs with python</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="frapy-fitting-resolved-arcs-with-python">
+<h1>FRApy: Fitting Resolved Arcs with python<a class="headerlink" href="#frapy-fitting-resolved-arcs-with-python" title="Permalink to this headline">¶</a></h1>
+<p>FRApy is python code designed to fit gravitational arcs in image plane with analytical modes, such as metallicity gradients and velocity fields, taking into account the lensing distortions.</p>
 <div class="section" id="intro">
-<h1>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h1>
+<h2>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="graviatational-arcs">
-<h2>Graviatational arcs<a class="headerlink" href="#graviatational-arcs" title="Permalink to this headline">¶</a></h2>
-<p>Gravitational arcs are galaxies in the backgroud of a cluster of galaxies or a massive galaxy. These massive objects act as a <em>magifying lens</em>, increasing the size of the backgroud galaxies in the sky, which allows us to resolve them to smaller spatial scales. However, the magnification is not uniform, and the lensed galaxies appear ‘distorted’ in the sky, typically in an arc-like shape (hence the name graviational ‘arcs’).</p>
-<p>PUT IMAGE</p>
-<p>The spatial distortion makes the analysis of these objects more difficult, especially when several images of the same object (called multiple images) are formed. FRApy allows these images with</p>
+<h3>Graviatational arcs<a class="headerlink" href="#graviatational-arcs" title="Permalink to this headline">¶</a></h3>
+<p>Gravitational arcs are galaxies in the backgroud of a cluster of galaxies or a massive galaxy. These massive objects act as a <em>magnifying lens</em>, increasing the size of the backgroud galaxies in the sky, which allows us to resolve them to smaller spatial scales. However, the magnification is not uniform, and the lensed galaxies appear ‘distorted’ in the sky, typically in an arc-like shape (hence the name graviational ‘arcs’).</p>
+<div class="figure" id="id1">
+<a class="reference internal image-reference" href="_images/a370.png"><img alt="Example of graviational arc." src="_images/a370.png" style="width: 651.6px; height: 304.8px;" /></a>
+<p class="caption"><span class="caption-text">This is a gravitational arc called ‘the dragon’ lensed by the cluster Abell 370. On the left, you can see it in <em>image plane</em>, i.e. as it is in the sky, magnified it all its messy glory. On the right, we have use a lensing model to correct this magnification and get ‘the real galaxy’. This is called the <em>source plane</em> image.</span></p>
+</div>
+<p>The spatial distortion makes the analysis of these objects more difficult, especially when several images of the same object (called multiple images) are available. FRApy deals with this issue through forward-modelling: we start with a model in source plane (the ‘undistorted’ galaxy), lense it to image plane using a lensing model and compare it with the data.</p>
 </div>
 <div class="section" id="what-you-ll-need">
-<h2>What you’ll need<a class="headerlink" href="#what-you-ll-need" title="Permalink to this headline">¶</a></h2>
+<h3>What you’ll need<a class="headerlink" href="#what-you-ll-need" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
-<li>Displacement maps. COMPLETE THIS</li>
-<li>An analytical model that you are trying to fit. You’ll have to assume some hypothesis or model of your data (such as a linear metallicity gradient, an arctangent function to fit velocity, or an exponential surface brightness), that will be fit to the data. If you are interested in seeing the data ‘as it is in source plane’, i.e. in inverting the lensing equations, use LensTool, or similar codes.</li>
+<li>Deflection maps. These are images produced from a lensing model that map how much deflection (in arcseconds) a little photon originated in position x,y in the sky will suffer due to the gravitational lens. This is the core of FRApy’s modelling and allows us to generate lensed images that can be compared with the observations. We do this by calculating where each pixel in source plane will ‘land’ in image plane. A number of Frontier Fields models provide these maps, you can check them <a class="reference external" href="https://archive.stsci.edu/pub/hlsp/frontier/abell370/models/">here</a>.</li>
 </ol>
+<p>2. An analytical model that you hope describes your data, such as a gradient for metallicity or an arctangent model velocity fields. FRApy comes with a number of these models,
+that we used in our own publications, but we also show how you can create and fit your own model.</p>
 </div>
 </div>
 <div class="section" id="install">
-<h1>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h1>
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
 <p>Add dependencies</p>
 </div>
-<div class="section" id="documentation">
-<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="quick-start">
+<h2>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<p>FRApy is a python module. A minimum working example would look something like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import FRApy</span>
+<span class="kn">from</span> <span class="nn">frapy</span> <span class="kn">import</span> <span class="n">Observation</span><span class="p">,</span><span class="n">Metallicity_Gradient</span><span class="p">,</span><span class="n">fit_model</span><span class="p">,</span><span class="n">make_input_parameters</span><span class="p">,</span><span class="n">Output</span>
+
+<span class="c1"># Load Observations</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">z</span><span class="o">=</span><span class="mf">0.611</span><span class="p">,</span>
+                      <span class="n">data_path</span><span class="o">=</span><span class="s1">&#39;Demo_data/AS1063_map_metallicity.fits&#39;</span><span class="p">,</span>
+                      <span class="n">unc_path</span><span class="o">=</span><span class="s1">&#39;Demo_data/AS1063_map_metallicity_unc.fits&#39;</span><span class="p">,</span>
+                      <span class="n">seeing</span> <span class="o">=</span> <span class="mf">1.03</span><span class="o">/</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="c1"># Choose a Model, in this case a linear metallicity gradient</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Metallicity_Gradient</span><span class="p">(</span><span class="n">zlens</span><span class="o">=</span><span class="mf">0.322</span><span class="p">,</span>
+                                                         <span class="n">dfx_path</span><span class="o">=</span><span class="s1">&#39;Demo_data/AS1063_dplx.fits&#39;</span><span class="p">,</span>
+                                                         <span class="n">dfy_path</span><span class="o">=</span><span class="s1">&#39;Demo_data/AS1063_dply.fits&#39;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">create_projection_maps</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+
+<span class="c1"># Fit the data</span>
+<span class="n">input_par</span> <span class="o">=</span> <span class="n">make_input_parameters</span><span class="p">(</span><span class="n">name</span>    <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;cx&#39;</span><span class="p">,</span> <span class="s1">&#39;cy&#39;</span><span class="p">,</span>  <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;pa&#39;</span><span class="p">,</span> <span class="s1">&#39;z_grad&#39;</span><span class="p">,</span> <span class="s1">&#39;z_0&#39;</span><span class="p">),</span>
+                                                                 <span class="n">value</span>   <span class="o">=</span> <span class="p">(</span>  <span class="mi">29</span><span class="p">,</span>   <span class="mi">23</span><span class="p">,</span>  <span class="mf">0.7</span><span class="p">,</span>   <span class="mi">20</span><span class="p">,</span>    <span class="o">-</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">),</span>
+                                                                 <span class="n">minimum</span> <span class="o">=</span> <span class="p">(</span>  <span class="mi">28</span><span class="p">,</span>   <span class="mi">22</span><span class="p">,</span>  <span class="mf">0.4</span><span class="p">,</span>  <span class="o">-</span><span class="mi">20</span><span class="p">,</span>     <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">),</span>
+                                                                 <span class="n">maximum</span> <span class="o">=</span> <span class="p">(</span>  <span class="mi">33</span><span class="p">,</span>   <span class="mi">27</span><span class="p">,</span>  <span class="mf">0.9</span><span class="p">,</span>   <span class="mi">90</span><span class="p">,</span>      <span class="mf">0.0</span><span class="p">,</span> <span class="mf">9.5</span><span class="p">))</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">fit_model</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span><span class="n">model</span><span class="p">,</span><span class="n">input_par</span><span class="p">,</span><span class="s1">&#39;output_file&#39;</span><span class="p">,</span><span class="n">nsteps</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span><span class="n">nwalkers</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+
+<span class="c1"># Inspect the fit</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;output_file&#39;</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">best_parameters</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mode-in-depth-demos">
+<h2>Mode in depth demos<a class="headerlink" href="#mode-in-depth-demos" title="Permalink to this headline">¶</a></h2>
+<p>We have also included two notebooks with in depth examples on how to fit your data.</p>
+<div class="section" id="fitting-a-metallicity-gradient">
+<h3>Fitting  a Metallicity Gradient<a class="headerlink" href="#fitting-a-metallicity-gradient" title="Permalink to this headline">¶</a></h3>
+<iframe src="_static/demo_fit_metallicity_gradient.html" height="345px" width="100%"></iframe></div>
+<div class="section" id="fitting-velocity-field">
+<h3>Fitting Velocity Field<a class="headerlink" href="#fitting-velocity-field" title="Permalink to this headline">¶</a></h3>
+<iframe src="_static/demo_fit_velocity_model.html" height="345px" width="100%"></iframe></div>
+</div>
+<div class="section" id="authors-and-citations">
+<h2>Authors and Citations<a class="headerlink" href="#authors-and-citations" title="Permalink to this headline">¶</a></h2>
+<p>This code was developed by:</p>
+<ul class="simple">
+<li>Vera Patricio, main contributer</li>
+<li>Johan Richard, lensing specialist</li>
+</ul>
+<p>If you use FRApy in your science, please add the following citation:</p>
+<p><a class="reference external" href="https://ui.adsabs.harvard.edu/#abs/2018MNRAS.477...18P/abstract">Patrício et. al, 2018</a>.</p>
+<p>TO COME: PATRICIO 2019</p>
+<p>and don’t forget astropy and emcee</p>
+</div>
+<div class="section" id="code-documentation">
+<h2>Code Documentation<a class="headerlink" href="#code-documentation" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 </div>
 <div class="section" id="module-frapy.observations">
-<span id="observations"></span><h2>Observations<a class="headerlink" href="#module-frapy.observations" title="Permalink to this headline">¶</a></h2>
+<span id="observations"></span><h3>Observations<a class="headerlink" href="#module-frapy.observations" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="frapy.observations.Observation">
 <em class="property">class </em><code class="descclassname">frapy.observations.</code><code class="descname">Observation</code><span class="sig-paren">(</span><em>data_path</em>, <em>z</em>, <em>unc_path=None</em>, <em>seeing=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/observations.html#Observation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.observations.Observation" title="Permalink to this definition">¶</a></dt>
@@ -120,27 +286,105 @@ of the object and the seeing.</p>
 
 <dl class="method">
 <dt id="frapy.observations.Observation.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/observations.html#Observation.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.observations.Observation.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plots the data and uncertainty.</p>
+<code class="descname">plot</code><span class="sig-paren">(</span><em>data_lim=None</em>, <em>unc_lim=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/observations.html#Observation.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.observations.Observation.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the data and uncertainty.
+:param data_lim: minimum and maximum values of the data colour bar.
+:type data_lim: (float,float)
+:param unc_lim: minimum and maximum values of the uncertainty colour bar.
+:type unc_lim: (float,float)</p>
 </dd></dl>
 
 </dd></dl>
 
 </div>
 <div class="section" id="module-frapy.models">
-<span id="models"></span><h2>Models<a class="headerlink" href="#module-frapy.models" title="Permalink to this headline">¶</a></h2>
+<span id="models"></span><h3>Models<a class="headerlink" href="#module-frapy.models" title="Permalink to this headline">¶</a></h3>
 <p>The BaseModel handles all the lensing part, producing a distance map
 that is used by all the other models. At the moment, the following
 models are implemented:</p>
 <blockquote>
 <div><ul class="simple">
 <li>Metallcity gradient</li>
-<li>TO BE COMPLETED</li>
+<li>Arctangent velocity</li>
 </ul>
 </div></blockquote>
 <dl class="class">
+<dt id="frapy.models.BaseModel">
+<em class="property">class </em><code class="descclassname">frapy.models.</code><code class="descname">BaseModel</code><span class="sig-paren">(</span><em>zlens</em>, <em>dfx_path</em>, <em>dfy_path</em>, <em>cx=0</em>, <em>cy=0</em>, <em>q=1</em>, <em>pa=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#BaseModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.BaseModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Global lensing model to be used in all other Model classes .</p>
+<p>This class prepares the deflection maps to be used with a particular object (i.e.
+at a particular redshift) and observations (i.e. aligns the maps with the data).</p>
+<p>The main output is a distance map, in kiloparsecs, and an azimuthal map that serve
+as base for all the models being fit (metallicity gradient, velocity…)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>z_lens</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Redshift of the gravitational lens.</li>
+<li><strong>dfx_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path to the fits file with the x deflection.</li>
+<li><strong>dfy_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path to the fits file with the y deflection.</li>
+<li><strong>cx</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – x position of the centre (in pixels)</li>
+<li><strong>cy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – y position of the centre (in pixels)</li>
+<li><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – axis ratio (a/b)</li>
+<li><strong>pa</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Position angle (0 North, +90 East )</li>
+<li><strong>project_x</strong> (<em>float array</em>) – Lensing model (deflection in x direction) to be used to a particular object.
+Created with the ‘create_deflection_maps_for_object’ method.</li>
+<li><strong>project_y</strong> (<em>float array</em>) – Lensing model (deflection in y direction) to be used to a particular object.
+Created with the ‘create_deflection_maps_for_object’ method.</li>
+<li><strong>data</strong> (<em>array</em>) – An array with a realisation of a model made from the current parameter values.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="frapy.models.BaseModel.convolve_with_seeing">
+<code class="descname">convolve_with_seeing</code><span class="sig-paren">(</span><em>seeing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#BaseModel.convolve_with_seeing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.BaseModel.convolve_with_seeing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convolves a model with a Gaussian with width (sigma) ‘seeing’.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="frapy.models.BaseModel.create_projection_maps">
+<code class="descname">create_projection_maps</code><span class="sig-paren">(</span><em>Observation</em>, <em>correct_z=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#BaseModel.create_projection_maps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.BaseModel.create_projection_maps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the more global deflection maps produced by a graviatational
+lensing fitting code, and converts these maps to ‘projection’ maps, that
+maps where a pixel in source plane should be ‘projected’ in image plane,
+for this particular Observation. The project_x and project_y attributes
+are created with this function.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="frapy.models.BaseModel.lensing_info">
+<code class="descname">lensing_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#BaseModel.lensing_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.BaseModel.lensing_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the lens redshift and deflection maps origin</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="frapy.models.BaseModel.make_azimuthal_map">
+<code class="descname">make_azimuthal_map</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#BaseModel.make_azimuthal_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.BaseModel.make_azimuthal_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produces an azimuthal map, in kpc, centrered in ‘cx’,’cy’ and assuming a ratio of
+‘q’ between the minor and major axis, with the major axis in the ‘pa’ direction.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="frapy.models.BaseModel.make_distance_map">
+<code class="descname">make_distance_map</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#BaseModel.make_distance_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.BaseModel.make_distance_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produces a distance map, in kpc, centrered in ‘cx’,’cy’ and assuming a ratio of
+‘q’ between the minor and major axis, with the major axis in the ‘pa’ direction.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="frapy.models.BaseModel.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#BaseModel.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.BaseModel.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the model</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="frapy.models.Metallicity_Gradient">
-<em class="property">class </em><code class="descclassname">frapy.models.</code><code class="descname">Metallicity_Gradient</code><span class="sig-paren">(</span><em>zlens</em>, <em>dplx_path</em>, <em>dply_path</em>, <em>cx=0</em>, <em>cy=0</em>, <em>q=1</em>, <em>pa=0</em>, <em>z_grad=-1</em>, <em>z_0=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#Metallicity_Gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.Metallicity_Gradient" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">frapy.models.</code><code class="descname">Metallicity_Gradient</code><span class="sig-paren">(</span><em>zlens</em>, <em>dfx_path</em>, <em>dfy_path</em>, <em>cx=0</em>, <em>cy=0</em>, <em>q=1</em>, <em>pa=0</em>, <em>z_grad=-1</em>, <em>z_0=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#Metallicity_Gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.Metallicity_Gradient" title="Permalink to this definition">¶</a></dt>
 <dd><p>Linear metallicity gradient.</p>
 <p>This model inherits the distance maps attributes (cx,cy,q and pa), from which the metallicity
 at each point is calculated assuming a gradient and a central metallicity value:</p>
@@ -203,17 +447,93 @@ in the ‘data’ attribute</p>
 
 </dd></dl>
 
+<dl class="class">
+<dt id="frapy.models.Velocity_Arctangent">
+<em class="property">class </em><code class="descclassname">frapy.models.</code><code class="descname">Velocity_Arctangent</code><span class="sig-paren">(</span><em>zlens</em>, <em>dfx_path</em>, <em>dfy_path</em>, <em>cx=0</em>, <em>cy=0</em>, <em>q=1</em>, <em>pa=0</em>, <em>v_t=100</em>, <em>r_t=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#Velocity_Arctangent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.Velocity_Arctangent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exponential velocity model.</p>
+<blockquote>
+<div><p>This model inherits the distance and azimuthal maps, from which an arctangent model
+of the velocity at each point is calculated assuming the following formulae:</p>
+<p>$V(r) = v_t</p>
+</div></blockquote>
+<p>rac{2}{pi} arctan (
+rac{2r}{r_t})$</p>
+<blockquote>
+<div><p>with r the radius in kpc, v_t the terminal velocity and r_t the transition radius.</p>
+<dl class="docutils">
+<dt>cx: int</dt>
+<dd>x position of the centre (in pixels)</dd>
+<dt>cy: int</dt>
+<dd>y position of the centre (in pixels)</dd>
+<dt>q: float</dt>
+<dd>axis ratio (a/b)</dd>
+<dt>pa: float</dt>
+<dd>Position angle (0 North, +90 East )</dd>
+<dt>v_t: float</dt>
+<dd>Terminal velocity in km/s.</dd>
+<dt>r_t: float</dt>
+<dd>transition radius in kpc.</dd>
+</dl>
+</div></blockquote>
+<dl class="method">
+<dt id="frapy.models.Velocity_Arctangent.make_model">
+<code class="descname">make_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#Velocity_Arctangent.make_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.Velocity_Arctangent.make_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a model using the current parameters’ values and stores it
+in the ‘data’ attribute</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="frapy.models.Velocity_Arctangent.model_name">
+<code class="descname">model_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#Velocity_Arctangent.model_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.Velocity_Arctangent.model_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the model’s name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="frapy.models.Velocity_Arctangent.model_parameters">
+<code class="descname">model_parameters</code><span class="sig-paren">(</span><em>verbose=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#Velocity_Arctangent.model_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.Velocity_Arctangent.model_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the model’s parameters</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="frapy.models.Velocity_Arctangent.print_parameter_values">
+<code class="descname">print_parameter_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#Velocity_Arctangent.print_parameter_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.Velocity_Arctangent.print_parameter_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the model’s parameters values</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="frapy.models.Velocity_Arctangent.update_model_parameters">
+<code class="descname">update_model_parameters</code><span class="sig-paren">(</span><em>par</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#Velocity_Arctangent.update_model_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.Velocity_Arctangent.update_model_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the parameters of the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>par</strong> (<em>dictionary</em>) – dictionary in the shape {‘name’:parameter_name, ‘value’:parameter value}</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-frapy.fit_model">
-<span id="fitting"></span><h2>Fitting<a class="headerlink" href="#module-frapy.fit_model" title="Permalink to this headline">¶</a></h2>
+<span id="fitting"></span><h3>Fitting<a class="headerlink" href="#module-frapy.fit_model" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="frapy.fit_model.fit_model">
 <code class="descclassname">frapy.fit_model.</code><code class="descname">fit_model</code><span class="sig-paren">(</span><em>obs</em>, <em>model</em>, <em>parameters</em>, <em>outputname</em>, <em>nsteps=1000</em>, <em>nwalkers=24</em>, <em>mask=None</em>, <em>binning_map=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/fit_model.html#fit_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.fit_model.fit_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Routine that fits the observations using a given model and the emcee sampler.</p>
+<dd><blockquote>
+<div><p>Routine that fits the observations using a given model and the emcee sampler.</p>
 <p>We make use of the emcee sampler (<a class="reference external" href="http://dfm.io/emcee/current/">http://dfm.io/emcee/current/</a>) to fit the free parameters of
-the model to the observations. We are maximising the following log-likelihood function:</p>
-<p>lnp = COMPLETE THIS</p>
-<p>Both the model and the observations should be instances of the Observations and BaseModel
+the model to the observations. We are maximising the following log-probabiluty function:</p>
+<p>$$ln(probability) = ln(priors) + ln(likelihood)$$</p>
+<p>with the log likelohood function as:</p>
+<p>$$ln(likelihood) = -</p>
+</div></blockquote>
+<p>rac{1}{2} (
+rac{(data-model)^2}{uncertainty^2} + ln(2 pi uncertainty^2))$$</p>
+<blockquote>
+<div><p>Both the model and the observations should be instances of the Observations and BaseModel
 classes from frapy.</p>
 <p>The <em>parameters</em> input is a dictionary in the shape:</p>
 <p>parameters = {parameter_name1:{‘value’:X, ‘min’:Y, ‘max’:Z}, parameter_name2:{‘value’:A, ‘min’:B,
@@ -231,46 +551,47 @@ analysed as a single pixel and that value taken as the value of all the pixels g
 possible to include this information using a <em>binning_map</em>. This should be a 2D array in which
 pixels of the same bin are given the same value. Pixels in the image that were not analysed (not
 included in the binning) should be given negative values. These are not included in the minimisation.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>obs</strong> (<a class="reference internal" href="#frapy.observations.Observation" title="frapy.observations.Observation"><em>Observation</em></a>) – An instance of the Observation class</li>
-<li><strong>model</strong> (<a class="reference internal" href="#frapy.models.Metallicity_Gradient" title="frapy.models.Metallicity_Gradient"><em>Metallicity_Gradient</em></a><em>,</em><em>Velocity</em>) – A frapy model (based in the BaseModel class)</li>
-<li><strong>parameters</strong> (<em>dictionary</em>) – A dictionary containing the parameters of the model to be varied and their limits. Parameters not
-in this dictionary will not be varied.</li>
-<li><strong>outputname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of the output pickle file.</li>
-<li><strong>nsteps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – number of steps of the emcee walkers. Default: 1000</li>
-<li><strong>nwalkers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of emcee walkers. Default: 24</li>
-<li><strong>mask</strong> (<em>array int</em>) – Array of the same shape as the data containing only zeros (masked values) or ones (valid values).
-Optional.</li>
-<li><strong>binning_map</strong> (<em>array int</em>) – Array of the same shape as the data containing encoding the pixels that were groupped togther.
-Optional.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
-<li><em>Returns a dictionary with</em> – sampler chain
+<dl class="docutils">
+<dt>obs: Observation</dt>
+<dd>An instance of the Observation class</dd>
+<dt>model: Metallicity_Gradient,Velocity</dt>
+<dd>A frapy model (based in the BaseModel class)</dd>
+<dt>parameters: dictionary</dt>
+<dd>A dictionary containing the parameters of the model to be varied and their limits. Parameters not
+in this dictionary will not be varied.</dd>
+<dt>outputname: str</dt>
+<dd>Name of the output pickle file.</dd>
+<dt>nsteps: int</dt>
+<dd>number of steps of the emcee walkers. Default: 1000</dd>
+<dt>nwalkers: int</dt>
+<dd>Number of emcee walkers. Default: 24</dd>
+<dt>mask: array int</dt>
+<dd>Array of the same shape as the data containing only zeros (masked values) or ones (valid values).
+Optional.</dd>
+<dt>binning_map: array int</dt>
+<dd>Array of the same shape as the data containing encoding the pixels that were groupped togther.
+Optional.</dd>
+</dl>
+<blockquote>
+<div><dl class="docutils">
+<dt>Returns a dictionary with:</dt>
+<dd>sampler chain
 sampler lnprobability
 parameter names in the correct order
 input parameters
 the mask used
 the binning map used
 the observations
-the model</li>
-<li><em>This is also saved as a pickles file.</em></li>
-</ul>
-</p>
-</td>
-</tr>
-</tbody>
-</table>
+the model</dd>
+</dl>
+<p>This is also saved as a pickles file.</p>
+</div></blockquote>
+</div></blockquote>
 </dd></dl>
 
 </div>
 <div class="section" id="module-frapy.check_fit">
-<span id="explore-the-output"></span><h2>Explore the output<a class="headerlink" href="#module-frapy.check_fit" title="Permalink to this headline">¶</a></h2>
+<span id="explore-the-output"></span><h3>Explore the output<a class="headerlink" href="#module-frapy.check_fit" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="frapy.check_fit.Output">
 <em class="property">class </em><code class="descclassname">frapy.check_fit.</code><code class="descname">Output</code><span class="sig-paren">(</span><em>outfile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/check_fit.html#Output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.check_fit.Output" title="Permalink to this definition">¶</a></dt>
@@ -356,7 +677,7 @@ Only uses iterations after ‘start’</p>
 
 </div>
 <div class="section" id="module-frapy.utils">
-<span id="miscelaneous"></span><h2>Miscelaneous<a class="headerlink" href="#module-frapy.utils" title="Permalink to this headline">¶</a></h2>
+<span id="miscelaneous"></span><h3>Miscelaneous<a class="headerlink" href="#module-frapy.utils" title="Permalink to this headline">¶</a></h3>
 <p>This module containts miscelaneous functions used in the fitting.</p>
 <dl class="function">
 <dt id="frapy.utils.make_input_parameters">
@@ -392,70 +713,64 @@ parameter_name2:{‘value’:A, ‘min’:B, ‘max’:C},
 
 </div>
 </div>
-<div class="section" id="authors-and-references">
-<h1>Authors and References<a class="headerlink" href="#authors-and-references" title="Permalink to this headline">¶</a></h1>
-</div>
 <div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
 <li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
 <li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
 </ul>
 </div>
+</div>
 
 
+           </div>
+           
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
-<ul>
-<li><a class="reference internal" href="#">Welcome to FRApy’s documentation!</a></li>
-<li><a class="reference internal" href="#intro">Intro</a><ul>
-<li><a class="reference internal" href="#graviatational-arcs">Graviatational arcs</a></li>
-<li><a class="reference internal" href="#what-you-ll-need">What you’ll need</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#install">Install</a></li>
-<li><a class="reference internal" href="#documentation">Documentation</a><ul>
-<li><a class="reference internal" href="#module-frapy.observations">Observations</a></li>
-<li><a class="reference internal" href="#module-frapy.models">Models</a></li>
-<li><a class="reference internal" href="#module-frapy.fit_model">Fitting</a></li>
-<li><a class="reference internal" href="#module-frapy.check_fit">Explore the output</a></li>
-<li><a class="reference internal" href="#module-frapy.utils">Miscelaneous</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#authors-and-references">Authors and References</a></li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
-</ul>
+          <footer>
+  
 
+  <hr/>
 
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/index.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<form action="search.html" method="get">
-  <input type="text" name="q" placeholder="Search" />
-  <input type="hidden" name="check_keywords" value="yes" />
-  <input type="hidden" name="area" value="default" />
-</form>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-<footer class="footer">
-  <p class="pull-right">
-    <a href="_sources/index.rst.txt"
-       rel="nofollow">Page Source</a> &nbsp;
-    <a href="#">Back to Top</a></p>
-  <p>
-    &copy; Copyright 2018, Vera Patricio.<br/>
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.1. &nbsp;
-  </p>
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Vera Patricio
+      Last updated on 21 Dec 2018.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
 </footer>
-  </body>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
 </html>

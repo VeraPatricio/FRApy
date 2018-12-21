@@ -5,7 +5,7 @@ models are implemented:
 
     * Metallcity gradient
 
-    * TO BE COMPLETED
+    * Arctangent velocity
 """
 
 import numpy as np
@@ -18,12 +18,12 @@ from astropy.cosmology import WMAP9 as cosmo
 from reproject import reproject_interp
 from astropy.convolution import convolve,Gaussian2DKernel
 
-__all__ = ['Metallicity_Gradient']
+__all__ = ['BaseModel','Metallicity_Gradient','Velocity_Arctangent']
 
 class BaseModel(object):
     """ Global lensing model to be used in all other Model classes .
 
-    This class prepares the displacement maps to be used with a particular object (i.e. 
+    This class prepares the deflection maps to be used with a particular object (i.e. 
     at a particular redshift) and observations (i.e. aligns the maps with the data).
 
     The main output is a distance map, in kiloparsecs, and an azimuthal map that serve
@@ -33,10 +33,10 @@ class BaseModel(object):
     ----------
     z_lens: float
         Redshift of the gravitational lens.
-    dplx_path: str
-        Path to the fits file containing displacements in the x direction.
-    dply_path: str
-        Path to the fits file containing displacements in the y direction
+    dfx_path: str
+        Path to the fits file with the x deflection.
+    dfy_path: str
+        Path to the fits file with the y deflection.
     cx: int
         x position of the centre (in pixels)
     cy: int
@@ -45,53 +45,54 @@ class BaseModel(object):
         axis ratio (a/b)
     pa: float
         Position angle (0 North, +90 East )
-    lens_x: float array
-        Lensing model (displacement in x direction) to be used to a particular object. 
-        Created with the 'create_displacement_maps_for_object' method.
-    lens_y: float array
-        Lensing model (displacement in y direction) to be used to a particular object. 
-        Created with the 'create_displacement_maps_for_object' method. 
+    project_x: float array
+        Lensing model (deflection in x direction) to be used to a particular object. 
+        Created with the 'create_deflection_maps_for_object' method.
+    project_y: float array
+        Lensing model (deflection in y direction) to be used to a particular object. 
+        Created with the 'create_deflection_maps_for_object' method. 
     data: array
         An array with a realisation of a model made from the current parameter values.
     """
 
-    def __init__(self,zlens,dplx_path,dply_path,cx=0,cy=0,q=1,pa=0):
+    def __init__(self,zlens,dfx_path,dfy_path,cx=0,cy=0,q=1,pa=0):
 
         self.zlens = zlens
-        if os.path.isfile(dplx_path):
-            self.dplx_path = dplx_path
+        if os.path.isfile(dfx_path):
+            self.dfx_path = dfx_path
         else: 
-            print('Displacement map %s not found'%dplx_path)
-        if os.path.isfile(dply_path):
-            self.dply_path = dply_path
+            print('Deflection map %s not found'%dfx_path)
+        if os.path.isfile(dfy_path):
+            self.dfy_path = dfy_path
         else: 
-            print('Displacement map %s not found'%dply_path)
+            print('Deflection map %s not found'%dfy_path)
         self.cx = cx
         self.cy = cy
         self.q  = q
         self.pa = pa
-        self.lens_x = None
-        self.lens_y = None
+        self.project_x = None
+        self.project_y = None
         self.data = None
 
 
     def lensing_info(self):
-        """ Prints the lens redshift and displacement maps origin"""    
+        """ Prints the lens redshift and deflection maps origin"""    
         print('Lens redshift: %0.4f'%self.zlens)
-        print('Displacement map (x): %s' %self.dplx_path)
-        print('Displacement map (y): %s' %self.dply_path)
+        print('Deflection map (x): %s' %self.dfx_path)
+        print('dDflection map (y): %s' %self.dfy_path)
             
                
-    def create_displacement_maps_for_object(self,Observation,correct_z=True):
-        """ Takes the more global displacement maps produced by a graviatational 
-        lensing fitting code, and converts these maps to displacements at the redhisft 
-        of the source being analysed and aligns and regrids the maps to the data.
-        The lens_x and lens_y attributes are created with this function.
+    def create_projection_maps(self,Observation,correct_z=True):
+        """ Takes the more global deflection maps produced by a graviatational 
+        lensing fitting code, and converts these maps to 'projection' maps, that
+        maps where a pixel in source plane should be 'projected' in image plane,
+        for this particular Observation. The project_x and project_y attributes 
+        are created with this function.
         """
-        # Load displacement maps
-        dplx = fits.getdata(self.dplx_path)
-        dply = fits.getdata(self.dply_path)
-        dpl_header = fits.getheader(self.dplx_path)
+        # Load deflection maps
+        dplx = fits.getdata(self.dfx_path)
+        dply = fits.getdata(self.dfy_path)
+        dpl_header = fits.getheader(self.dfx_path)
 
         # Normalise it to the redshift of the object
         if correct_z:
@@ -100,21 +101,21 @@ class BaseModel(object):
             dplx *= (dls/ds).value
             dply *= (dls/ds).value
 
-        # Convert displacement maps to arcseconds 
+        # Convert deflection maps to arcseconds 
         step = abs(dpl_header['CDELT2'])*3600.0
-        x,y = np.meshgrid(xrange(dplx.shape[0]),xrange(dplx.shape[1]))
+        x,y = np.meshgrid(np.arange(dplx.shape[0]),np.arange(dplx.shape[1]))
         sx =  x*step - dplx
         sy =  y*step - dply  
 
-        # Re-grid the displacement map to the data format and to kpc
+        # Re-grid the deflection map to the data format and to kpc
         data_header = fits.getheader(Observation.data_path)
-        lens_x, _ = reproject_interp((sx,dpl_header),data_header) 
-        lens_y, _ = reproject_interp((sy,dpl_header),data_header)
-        lens_x = lens_x/cosmo.arcsec_per_kpc_proper(Observation.z).value
-        lens_y = lens_y/cosmo.arcsec_per_kpc_proper(Observation.z).value
+        project_x, _ = reproject_interp((sx,dpl_header),data_header) 
+        project_y, _ = reproject_interp((sy,dpl_header),data_header)
+        project_x = project_x/cosmo.arcsec_per_kpc_proper(Observation.z).value
+        project_y = project_y/cosmo.arcsec_per_kpc_proper(Observation.z).value
 
-        self.lens_x = lens_x
-        self.lens_y = lens_y
+        self.project_x = project_x
+        self.project_y = project_y
 
 
     def convolve_with_seeing(self,seeing):
@@ -126,10 +127,10 @@ class BaseModel(object):
         """Produces a distance map, in kpc, centrered in 'cx','cy' and assuming a ratio of 
         'q' between the minor and major axis, with the major axis in the 'pa' direction. """
 
-        if np.all(self.lens_x) == None or np.all(self.lens_y) == None:
-            print('No displacement maps for a particular redshift were found.') 
+        if np.all(self.project_x) == None or np.all(self.project_y) == None:
+            print('No projection maps for a particular redshift were found.') 
             print('It is not possible to create a distance map without them.')
-            print('Use the "create_displacement_maps_for_object" method first.')
+            print('Use the "create_projection_maps" method first.')
             pass
 
         else:
@@ -137,27 +138,62 @@ class BaseModel(object):
             # Centre distance map
             cx = int(np.round(self.cx,0))
             cy = int(np.round(self.cy,0))
-            center_x = self.lens_x[cy,cx] 
-            center_y = self.lens_y[cy,cx]  
-            centered_lens_x = self.lens_x - center_x
-            centered_lens_y = self.lens_y - center_y
+            center_x = self.project_x[cy,cx] 
+            center_y = self.project_y[cy,cx]  
+            centered_project_x = self.project_x - center_x
+            centered_project_y = self.project_y - center_y
 
             # Create 2D model
-            y_ip,x_ip = np.mgrid[:centered_lens_x.shape[0], : centered_lens_x.shape[1]]
-            x_out = centered_lens_x[y_ip,x_ip]
-            y_out = centered_lens_y[y_ip,x_ip]
+            y_ip,x_ip = np.mgrid[:centered_project_x.shape[0], : centered_project_x.shape[1]]
+            x_out = centered_project_x[y_ip,x_ip]
+            y_out = centered_project_y[y_ip,x_ip]
             
             # Account for rotation (counter-clockwise, North 0, East 90)
             pa_rad = np.deg2rad(self.pa - 90.)
             x_rot = x_out*np.cos(pa_rad)+y_out*np.sin(pa_rad) 
             y_rot = y_out*np.cos(pa_rad)-x_out*np.sin(pa_rad)
             dist = np.sqrt((x_rot)**2+((y_rot)/self.q)**2)
-                    
+
             return dist
 
-    def make_azimuthal_map(self):
-        print('To be done')
+    def make_azimuthal_map(self):        
+        """Produces an azimuthal map, in kpc, centrered in 'cx','cy' and assuming a ratio of 
+        'q' between the minor and major axis, with the major axis in the 'pa' direction. """
 
+        if np.all(self.project_x) == None or np.all(self.project_y) == None:
+            print('No deflection maps for a particular redshift were found.') 
+            print('It is not possible to create a distance map without them.')
+            print('Use the "create_deflection_maps_for_object" method first.')
+            pass
+
+        else:
+
+            # Centre distance map
+            cx = int(np.round(self.cx,0))
+            cy = int(np.round(self.cy,0))
+            center_x = self.project_x[cy,cx] 
+            center_y = self.project_y[cy,cx]  
+            centered_project_x = self.project_x - center_x
+            centered_project_y = self.project_y - center_y
+
+            # Create 2D model
+            y_ip,x_ip = np.mgrid[:centered_project_x.shape[0], : centered_project_x.shape[1]]
+            x_out = centered_project_x[y_ip,x_ip]
+            y_out = centered_project_y[y_ip,x_ip]
+            
+            # Account for rotation (counter-clockwise, North 0, East 90)
+            pa_rad = np.deg2rad(self.pa - 90.)
+            x_rot = x_out*np.cos(pa_rad)+y_out*np.sin(pa_rad) 
+            y_rot = y_out*np.cos(pa_rad)-x_out*np.sin(pa_rad)
+            dist = np.sqrt((x_rot)**2+((y_rot)/self.q)**2)
+
+            ratio_x = x_rot/dist
+            ratio_y = y_rot/dist
+            ang = np.rad2deg(np.arccos(ratio_x))
+            neg_ratio = np.where(ratio_y > 0)
+            ang[neg_ratio] = 360 -  np.rad2deg(np.arccos(ratio_x[neg_ratio]))
+
+            return ang
 
     def plot(self):
         """Plots the model"""
@@ -196,8 +232,8 @@ class Metallicity_Gradient(BaseModel):
         Central metallicity value (value at cx,cy)
     """
 
-    def __init__(self,zlens,dplx_path,dply_path,cx=0,cy=0,q=1,pa=0,z_grad = -1,z_0 = 0):
-        BaseModel.__init__(self,zlens,dplx_path,dply_path,cx=0,cy=0,q=1,pa=0)
+    def __init__(self,zlens,dfx_path,dfy_path,cx=0,cy=0,q=1,pa=0,z_grad = -1,z_0 = 0):
+        BaseModel.__init__(self,zlens,dfx_path,dfy_path,cx=0,cy=0,q=1,pa=0)
         self.z_grad = z_grad
         self.z_0 = z_0
 
@@ -225,16 +261,6 @@ class Metallicity_Gradient(BaseModel):
         print('z_grad: %0.2f'%self.z_grad)
         print('z_0: %0.2f'%self.z_0)
 
-
-    def make_model(self):
-        """ Makes a model using the current parameters' values and stores it 
-        in the 'data' attribute"""
-        distance_map = self.make_distance_map()
-        grad = distance_map * self.z_grad + self.z_0
-        self.data = distance_map * self.z_grad + self.z_0
-        return grad
-
-
     def update_model_parameters(self,par):
         """Updates the parameters of the model.
 
@@ -256,6 +282,15 @@ class Metallicity_Gradient(BaseModel):
                 self.z_grad = par[name]['value']
             if name == 'z_0':
                 self.z_0 = par[name]['value']
+
+    def make_model(self):
+        """ Makes a model using the current parameters' values and stores it 
+        in the 'data' attribute"""
+        distance_map = self.make_distance_map()
+        grad = distance_map * self.z_grad + self.z_0
+        self.data = distance_map * self.z_grad + self.z_0
+        return grad
+
 
 class Metallicity_Gradient_with_Flatenning(BaseModel):
     """ Linear metallicity gradient with a break at the outter radius.  
@@ -287,9 +322,9 @@ class Metallicity_Gradient_with_Flatenning(BaseModel):
         Central metallicity value (value at cx,cy)
     """
 
-    def __init__(self,zlens,dplx_path,dply_path,cx=0,cy=0,q=1,pa=0,z_grad = 1,z_0 = 0):
+    def __init__(self,zlens,dfx_path,dfy_path,cx=0,cy=0,q=1,pa=0,z_grad = 1,z_0 = 0):
 
-        Model.__init__(self,zlens,dplx_path,dply_path,cx=0,cy=0,q=1,pa=0)
+        Model.__init__(self,zlens,dfx_path,dfy_path,cx=0,cy=0,q=1,pa=0)
         self.z_grad = z_grad
         self.z_0 = z_0
         self.r_flat = r_flat
@@ -304,3 +339,95 @@ class Metallicity_Gradient_with_Flatenning(BaseModel):
         anulli = np.where((distance_map > 0.8*self.r_flat) & (distance_map < 1.2*self.r_flat))
         grad[outter_part] = np.mean(grad[anulli])
         return grad
+
+
+class Velocity_Arctangent(BaseModel):
+    """ Exponential velocity model.  
+
+    This model inherits the distance and azimuthal maps, from which an arctangent model
+    of the velocity at each point is calculated assuming the following formulae:
+
+    $V(r) = v_t \frac{2}{\pi} arctan (\frac{2r}{r_t})$
+
+    with r the radius in kpc, v_t the terminal velocity and r_t the transition radius. 
+
+    Parameters
+    ----------
+    cx: int
+        x position of the centre (in pixels)
+    cy: int
+        y position of the centre (in pixels)
+    q: float
+        axis ratio (a/b)
+    pa: float
+        Position angle (0 North, +90 East )
+    v_t: float
+        Terminal velocity in km/s.
+    r_t: float
+        transition radius in kpc.
+        
+    """
+
+    def __init__(self,zlens,dfx_path,dfy_path,cx=0,cy=0,q=1,pa=0,v_t =100,r_t=10):
+        BaseModel.__init__(self,zlens,dfx_path,dfy_path,cx=0,cy=0,q=1,pa=0)
+        self.v_t = v_t
+        self.r_t = r_t
+
+    def model_name():
+        """Returns the model's name"""
+        return 'arctangent_velocity'
+
+    def model_parameters(self,verbose=True):
+        """Returns the model's parameters"""
+        if verbose:
+            print('cx: x position of the centre (in pixels)')
+            print('cy: y position of the centre (in pixels)')
+            print('q: axis ratio (a/b)')
+            print('pa: position angle (in degrees)')
+            print('v_t : terminal velocity')
+            print('r_t: transition velocity')
+        return ['cx','cy','q','pa','v_t','r_t']
+
+    def print_parameter_values(self):
+        """Returns the model's parameters values"""
+        print('cx: %d'%self.cx)
+        print('cy: %d'%self.cy)
+        print('q: %0.2f'%self.q)
+        print('pa: %0.2f'%self.pa)
+        print('v_t: %0.2f'%self.v_t)
+        print('r_t: %0.2f'%self.r_t)
+
+
+    def update_model_parameters(self,par):
+        """Updates the parameters of the model.
+
+        Parameters
+        ----------
+        par: dictionary
+            dictionary in the shape {'name':parameter_name, 'value':parameter value}
+        """
+        for name in par.keys():
+            if name == 'cx':
+                self.cx = par[name]['value']
+            if name == 'cy':
+                self.cy = par[name]['value']
+            if name == 'q':
+                self.q= par[name]['value']
+            if name == 'pa':
+                self.pa = par[name]['value']
+            if name == 'r_t':
+                self.r_t = par[name]['value']
+            if name == 'v_t':
+                self.v_t = par[name]['value']
+
+    def make_model(self):
+        """ Makes a model using the current parameters' values and stores it 
+        in the 'data' attribute"""
+
+        distance_map = self.make_distance_map()
+        theta_map = self.make_azimuthal_map()
+
+        vel = self.v_t * (2/np.pi) * np.arctan(2*distance_map/self.r_t) * (1 - self.q**2) * np.cos(np.deg2rad(theta_map))
+        self.data = vel
+
+        return vel

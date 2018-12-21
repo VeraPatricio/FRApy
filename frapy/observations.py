@@ -77,14 +77,27 @@ class Observation(object):
 
         # Complete with binning and mask
 
-    def plot(self):
-        """ Plots the data and uncertainty."""
+    def plot(self,data_lim=None,unc_lim=None):
+        """ Plots the data and uncertainty.
+        Parameters
+        ----------
+        data_lim: (float,float)
+            minimum and maximum values of the data colour bar. 
+        unc_lim: (float,float)
+            minimum and maximum values of the uncertainty colour bar. 
+        """
 
         fig, ax = plt.subplots(1,2,figsize=(10,3))
         ax[0].set_title('Data')
         ax[1].set_title('Uncertainty')
-        cax0 = ax[0].imshow(self.data,origin='lower')
-        cax1 = ax[1].imshow(self.unc,origin='lower')
+        if data_lim is None:
+            cax0 = ax[0].imshow(self.data,origin='lower')
+        else:
+            cax0 = ax[0].imshow(self.data,origin='lower',vmin=data_lim[0],vmax=data_lim[1])
+        if unc_lim is None:
+            cax1 = ax[1].imshow(self.unc,origin='lower')
+        else:
+            cax1 = ax[1].imshow(self.unc,origin='lower',vmin=unc_lim[0],vmax=unc_lim[1])
         plt.colorbar(cax0,ax=ax[0],fraction=0.03)
         plt.colorbar(cax1,ax=ax[1],fraction=0.03)
 
