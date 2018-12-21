@@ -22,7 +22,7 @@ setuptools.setup(
                         'astropy',
                         'reproject',
                         'emcee',
-                        'pickle',
+                        #'pickle',
                         'matplotlib',
                         'corner',
                         ],
