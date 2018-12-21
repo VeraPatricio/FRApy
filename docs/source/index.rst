@@ -59,15 +59,15 @@ FRApy is a python module. A minimum working example would look something like th
 
 	# Choose a Model, in this case a linear metallicity gradient
 	model = Metallicity_Gradient(zlens=0.322,
-								 dfx_path='Demo_data/AS1063_dplx.fits',
-								 dfy_path='Demo_data/AS1063_dply.fits')
+					 dfx_path='Demo_data/AS1063_dplx.fits',
+					 dfy_path='Demo_data/AS1063_dply.fits')
 	model.create_projection_maps(obs)
 
 	# Fit the data
 	input_par = make_input_parameters(name    = ('cx', 'cy',  'q', 'pa', 'z_grad', 'z_0'),
-									 value   = (  29,   23,  0.7,   20,    -0.02, 9.0),
-									 minimum = (  28,   22,  0.4,  -20,     -0.1, 8.5),
-									 maximum = (  33,   27,  0.9,   90,      0.0, 9.5))
+			 value   = (  29,   23,  0.7,   20,    -0.02, 9.0),
+			 minimum = (  28,   22,  0.4,  -20,     -0.1, 8.5),
+			 maximum = (  33,   27,  0.9,   90,      0.0, 9.5))
 	out = fit_model(obs,model,input_par,'output_file',nsteps=2000,nwalkers=24)
 
 	# Inspect the fit
@@ -113,7 +113,7 @@ If you use FRApy in your science, please add the following citation:
 
 TO COME: PATRICIO 2019
 
-and don't forget astropy and emcee	
+and don't forget `astropy <http://www.astropy.org/>`_ and `emcee <http://dfm.io/emcee/current/>`_!	
 
 
 Code Documentation 
@@ -148,8 +148,6 @@ Miscelaneous
 -------------------------------
 .. automodule:: frapy.utils
 	:members:
-
-
 
 
 Indices and tables
