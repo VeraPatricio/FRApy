@@ -364,8 +364,7 @@ class Velocity_Arctangent(BaseModel):
     v_t: float
         Terminal velocity in km/s.
     r_t: float
-        transition radius in kpc.
-        
+        transition radius in kpc.    
     """
 
     def __init__(self,zlens,dfx_path,dfy_path,cx=0,cy=0,q=1,pa=0,v_t =100,r_t=10):

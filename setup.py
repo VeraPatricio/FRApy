@@ -8,7 +8,8 @@ setuptools.setup(
     description="FRApy: Fitting Resolved Arcs with python",
     long_description="FRApy is python code designed to fit gravitational arcs in image plane with analytical modes, such as metallicity gradients and velocity fields, taking into account the lensing distortions.",
     long_description_content_type="text/markdown",
-    url="https://github.com/VeraPatricio/FRApy",
+    url=["https://github.com/VeraPatricio/FRApy",
+         "https://readthedocs.org/projects/frapy/"]
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

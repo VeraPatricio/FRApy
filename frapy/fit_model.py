@@ -70,7 +70,7 @@ def fit_model(obs,model,parameters,outputname,nsteps=1000,nwalkers=24,mask=None,
         Optional.
 
     Returns
-    ----------
+    -------
         Returns a dictionary with:
             sampler chain
             sampler lnprobability

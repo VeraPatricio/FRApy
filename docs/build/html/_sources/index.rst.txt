@@ -74,6 +74,7 @@ FRApy is a python module. A minimum working example would look something like th
 	results = Output('output_file')
 	results.best_parameters()
 
+
 Mode in depth demos 
 =================================
 
@@ -81,6 +82,8 @@ We have also included two notebooks with in depth examples on how to fit your da
 
 Fitting  a Metallicity Gradient
 -------------------------------
+
+REPLACE THIS WITH LINK TO GITHUB
 
 .. raw:: html
 
