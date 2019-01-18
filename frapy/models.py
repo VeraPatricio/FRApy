@@ -53,6 +53,9 @@ class BaseModel(object):
         Created with the 'create_deflection_maps_for_object' method. 
     data: array
         An array with a realisation of a model made from the current parameter values.
+    conv_data: array
+        An array with a realisation of a model made from the current parameter values,
+        convolved by the seeing of observations.
     """
 
     def __init__(self,zlens,dfx_path,dfy_path,cx=0,cy=0,q=1,pa=0):
@@ -73,6 +76,7 @@ class BaseModel(object):
         self.project_x = None
         self.project_y = None
         self.data = None
+        self.conv_data = None
 
 
     def lensing_info(self):
@@ -120,7 +124,9 @@ class BaseModel(object):
 
     def convolve_with_seeing(self,seeing):
         """Convolves a model with a Gaussian with width (sigma) 'seeing'."""
-        return convolve(self.data, Gaussian2DKernel(stddev=(seeing)),boundary='extend')
+        conv_model = convolve(self.data, Gaussian2DKernel(stddev=(seeing)),boundary='extend')
+        self.conv_data = conv_model
+        return conv_model
 
 
     def make_distance_map(self):

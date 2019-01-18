@@ -160,7 +160,7 @@ class Output(object):
         data_unc = bin_data(self.obs.unc,self.binning_map)
         convolved_model = bin_data(convolved_model,self.binning_map)
 
-        chi2_image = (dbata_obs-convolved_model)**2/data_unc**2
+        chi2_image = (data_obs-convolved_model)**2/data_unc**2
         chi2 = np.nansum(chi2_image[np.where(np.isfinite(chi2_image))])
         inv_sigma2 = 1.0/(data_unc**2)
         lnp = -0.5*(np.nansum((data_obs-convolved_model)**2*inv_sigma2- np.log(inv_sigma2*np.sqrt(2*np.pi))))
