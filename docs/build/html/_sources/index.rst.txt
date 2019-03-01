@@ -42,19 +42,13 @@ Right now, the project is available `GitHub <https://github.com/VeraPatricio/FRA
 
 It requires the following packages:
 
-numpy==1.15.4
-
-matplotlib==3.0.2
-
-astropy==3.1
-
-reproject==0.4 
-
-emcee==2.2.1
-
-pickle==4.0
-
-corner==2.0.1
+	numpy==1.15.4
+	matplotlib==3.0.2
+	astropy==3.1
+	reproject==0.4 
+	emcee==2.2.1
+	pickle==4.0
+	corner==2.0.1
 
 
 Quick start
@@ -108,11 +102,6 @@ Fitting Velocity Field
 -----------------------
 
 `Velocity Field Example <https://github.com/VeraPatricio/FRApy/blob/master/examples/demo_fit_velocity_model.ipynb>`_.
-
-.. raw:: html
-
-    <iframe src="_static/demo_fit_velocity_model.html" height="345px" width="100%"></iframe>
-
 
 
 Authors and Citations
