@@ -1,7 +1,6 @@
 """
 This module containts miscelaneous functions used in the fitting.
 """
-
 import numpy as np
 
 from astropy.io import fits
@@ -86,6 +85,7 @@ def mask_data(obs,mask):
             raise Exception('Mask and observations do not have the same shape: (%s,%s)'%(mask.shape, Observation.data.shape))
 
         else:
+            print('Masking data')
             mask = mask.astype(float)
             mask[np.where(mask == 0)] = np.nan
             data_obs = obs.data * mask

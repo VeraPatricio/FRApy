@@ -18,7 +18,7 @@ from astropy.cosmology import WMAP9 as cosmo
 from reproject import reproject_interp
 from astropy.convolution import convolve,Gaussian2DKernel
 
-__all__ = ['BaseModel','Metallicity_Gradient','Velocity_Arctangent']
+__all__ = ['BaseModel','Metallicity_Gradient','Metallicity_Gradient_Constant_Centre','Velocity_Arctangent']
 
 class BaseModel(object):
     """ Global lensing model to be used in all other Model classes .
@@ -42,9 +42,11 @@ class BaseModel(object):
     cy: int
         y position of the centre (in pixels)
     q: float
-        axis ratio (a/b)
+        axis ratio (b/a)
     pa: float
         Position angle (0 North, +90 East )
+    df_ang: float
+        Angle between x axis and North (measured anti-clockwise) in the deflection maps.
     project_x: float array
         Lensing model (deflection in x direction) to be used to a particular object. 
         Created with the 'create_deflection_maps_for_object' method.
@@ -58,7 +60,7 @@ class BaseModel(object):
         convolved by the seeing of observations.
     """
 
-    def __init__(self,zlens,dfx_path,dfy_path,cx=0,cy=0,q=1,pa=0):
+    def __init__(self,zlens,dfx_path,dfy_path,df_ang=0,cx=0,cy=0,q=1,pa=0):
 
         self.zlens = zlens
         if os.path.isfile(dfx_path):
@@ -77,7 +79,7 @@ class BaseModel(object):
         self.project_y = None
         self.data = None
         self.conv_data = None
-
+        self.df_ang = df_ang
 
     def lensing_info(self):
         """ Prints the lens redshift and deflection maps origin"""    
@@ -93,6 +95,7 @@ class BaseModel(object):
         for this particular Observation. The project_x and project_y attributes 
         are created with this function.
         """
+
         # Load deflection maps
         dplx = fits.getdata(self.dfx_path)
         dply = fits.getdata(self.dfy_path)
@@ -155,10 +158,10 @@ class BaseModel(object):
             y_out = centered_project_y[y_ip,x_ip]
             
             # Account for rotation (counter-clockwise, North 0, East 90)
-            pa_rad = np.deg2rad(self.pa - 90.)
+            pa_rad = np.deg2rad(self.df_ang + self.pa)
             x_rot = x_out*np.cos(pa_rad)+y_out*np.sin(pa_rad) 
             y_rot = y_out*np.cos(pa_rad)-x_out*np.sin(pa_rad)
-            dist = np.sqrt((x_rot)**2+((y_rot)/self.q)**2)
+            dist = np.sqrt((x_rot*self.q)**2+(y_rot)**2)
 
             return dist
 
@@ -188,10 +191,10 @@ class BaseModel(object):
             y_out = centered_project_y[y_ip,x_ip]
             
             # Account for rotation (counter-clockwise, North 0, East 90)
-            pa_rad = np.deg2rad(self.pa - 90.)
+            pa_rad = np.deg2rad(self.df_ang + self.pa)
             x_rot = x_out*np.cos(pa_rad)+y_out*np.sin(pa_rad) 
             y_rot = y_out*np.cos(pa_rad)-x_out*np.sin(pa_rad)
-            dist = np.sqrt((x_rot)**2+((y_rot)/self.q)**2)
+            dist = np.sqrt((x_rot*self.q)**2+(y_rot)**2)
 
             ratio_x = x_rot/dist
             ratio_y = y_rot/dist
@@ -238,8 +241,8 @@ class Metallicity_Gradient(BaseModel):
         Central metallicity value (value at cx,cy)
     """
 
-    def __init__(self,zlens,dfx_path,dfy_path,cx=0,cy=0,q=1,pa=0,z_grad = -1,z_0 = 0):
-        BaseModel.__init__(self,zlens,dfx_path,dfy_path,cx=0,cy=0,q=1,pa=0)
+    def __init__(self,zlens,dfx_path,dfy_path,df_ang=0,cx=0,cy=0,q=1,pa=0,z_grad = -1,z_0 = 0):
+        BaseModel.__init__(self,zlens,dfx_path,dfy_path,cx=cx,cy=cy,q=q,pa=pa,df_ang=df_ang)
         self.z_grad = z_grad
         self.z_0 = z_0
 
@@ -264,8 +267,9 @@ class Metallicity_Gradient(BaseModel):
         print('cy: %d'%self.cy)
         print('q: %0.2f'%self.q)
         print('pa: %0.2f'%self.pa)
-        print('z_grad: %0.2f'%self.z_grad)
-        print('z_0: %0.2f'%self.z_0)
+        print('df_ang: %0.2f'%self.df_ang)
+        print('z_grad: %0.4f'%self.z_grad)
+        print('z_0: %0.4f'%self.z_0)
 
     def update_model_parameters(self,par):
         """Updates the parameters of the model.
@@ -344,6 +348,110 @@ class Metallicity_Gradient_with_Flatenning(BaseModel):
         outter_part = np.where(distance_map > self.r_flat)
         anulli = np.where((distance_map > 0.8*self.r_flat) & (distance_map < 1.2*self.r_flat))
         grad[outter_part] = np.mean(grad[anulli])
+        return grad
+
+
+class Metallicity_Gradient_Constant_Centre(BaseModel):
+    """ Linear metallicity gradient with a flatenning of the centre at r_flat.  
+
+    This model inherits the distance maps attributes (cx,cy,q and pa), from which the metallicity
+    at each point is calculated assuming a gradient and a central metallicity value:
+
+    Z(r) = Delta Z * r + Z_0 
+
+    with r the radius in kpc, Delta Z the gradient in dex/kpc, Z_0 the central metallicity. 
+
+    For r < r_flat, the metallicity is constant.
+    
+    Parameters
+    ----------
+    cx: int
+        x position of the centre (in pixels)
+    cy: int
+        y position of the centre (in pixels)
+    q: float
+        axis ratio (a/b)
+    pa: float
+        Position angle (0 North, +90 East )
+    z_grad: float
+        Gradient in dex/kpc.
+    z_0: float
+        Central metallicity value (value at cx,cy)
+    r_flat: float
+        Radius that delimits the central zone where the metallicity is flat
+    """
+
+    def __init__(self,zlens,dfx_path,dfy_path,cx=0,cy=0,q=1,pa=0,z_grad = -1,z_0 = 0,r_flat=0.5,z_grad_inner = -1):
+        BaseModel.__init__(self,zlens,dfx_path,dfy_path,cx=0,cy=0,q=1,pa=0)
+        self.z_grad = z_grad
+        self.z_0 = z_0
+        self.r_flat = r_flat
+        self.z_grad_inner = z_grad_inner
+
+
+    def model_name():
+        """Returns the model's name"""
+        return 'Metallicity_Gradient_constant_centre'
+
+    def model_parameters(self,verbose=True):
+        """Returns the model's parameters"""
+        if verbose:
+            print('cx: x position of the centre (in pixels)')
+            print('cy: y position of the centre (in pixels)')
+            print('q: axis ratio (a/b)')
+            print('pa: position angle (in degrees)')
+            print('z_grad : gradient in dex/kpc')
+            print('z_0: central metallicity')
+            print('r_flat: maximum radius of the central (flat) region')
+            print('z_grad_inner: metallicity gradient of the inner part')
+        return ['cx','cy','q','pa','z_grad','z_0','r_flat','z_grad_inner']
+
+    def print_parameter_values(self):
+        """Returns the model's parameters values"""
+        print('cx: %d'%self.cx)
+        print('cy: %d'%self.cy)
+        print('q: %0.2f'%self.q)
+        print('pa: %0.2f'%self.pa)
+        print('z_grad: %0.4f'%self.z_grad)
+        print('z_0: %0.4f'%self.z_0)
+        print('r_flat: %0.2f'%self.r_flat)
+        print('z_grad_inner: %0.4f'%self.z_grad_inner)
+
+    def update_model_parameters(self,par):
+        """Updates the parameters of the model.
+
+        Parameters
+        ----------
+        par: dictionary
+            dictionary in the shape {'name':parameter_name, 'value':parameter value}
+        """
+        for name in par.keys():
+            if name == 'cx':
+                self.cx = par[name]['value']
+            if name == 'cy':
+                self.cy = par[name]['value']
+            if name == 'q':
+                self.q= par[name]['value']
+            if name == 'pa':
+                self.pa = par[name]['value']
+            if name == 'z_grad':
+                self.z_grad = par[name]['value']
+            if name == 'z_0':
+                self.z_0 = par[name]['value']
+            if name == 'r_flat':
+                self.r_flat = par[name]['value']
+            if name == 'z_grad_inner':
+                self.z_grad_inner = par[name]['value']
+
+    def make_model(self):
+        """ Makes a model using the current parameters' values and stores it 
+        in the 'data' attribute"""
+        distance_map = self.make_distance_map()
+        grad = distance_map * self.z_grad + self.z_0
+        grad_inner = distance_map * self.z_grad_inner + self.z_0
+        inner_part = np.where(distance_map < self.r_flat)
+        grad[inner_part] = grad_inner[inner_part]
+        self.data = grad
         return grad
 
 

@@ -4,6 +4,7 @@ from .utils import make_input_parameters
 from .fit_model import fit_model
 
 from .models import Metallicity_Gradient
+from .models import Metallicity_Gradient_Constant_Centre
 from .models import Velocity_Arctangent
 
 
@@ -12,6 +13,7 @@ __all__ = ['Observation',
 		   'fit_model',
 		   'Output',
    		   'Metallicity_Gradient',
+   		   'Metallicity_Gradient_Constant_Centre',
 		   'Velocity_Arctangent']
 
 

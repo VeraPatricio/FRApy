@@ -90,8 +90,8 @@ def fit_model(obs,model,parameters,outputname,nsteps=1000,nwalkers=24,mask=None,
     data_obs, data_unc = mask_data(obs,mask)
    
     # Bin data if voronoi map is available
-    data_obs = bin_data(obs.data,binning_map)
-    data_unc = bin_data(obs.unc,binning_map)
+    data_obs = bin_data(data_obs,binning_map)
+    data_unc = bin_data(data_unc,binning_map)
 
     # Priors: uniform
     def lnprior(par):

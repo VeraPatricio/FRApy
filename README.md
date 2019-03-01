@@ -19,9 +19,20 @@ The spatial distortion makes the analysis of these objects more difficult, espec
 that we used in our own publications, but we also show how you can create and fit your own model.
 
 
-## Install
+## Installation and requirements
 
 WORK IN PROGRESS
+
+This module requires the following packages:
+
+    numpy==1.15.4
+    matplotlib==3.0.2
+    astropy==3.1
+    reproject==0.4 
+    emcee==2.2.1
+    pickle==4.0
+    corner==2.0.1
+
 
 ## Example
 
@@ -29,25 +40,26 @@ FRApy is a python module. A minimum working example would be something like:
 
 ```python
 # Import FRApy
-from frapy import Observation,Metallicity_Gradient,fit_model,make_input_parameters,Output
+from frapy import Observation,Metallicity_Gradient,Output
+from frappy import fit_model,make_input_parameters
 
 # Load Observations
 obs = Observation(z=0.611,
-	              data_path='Demo_data/AS1063_map_metallicity.fits',
-	              unc_path='Demo_data/AS1063_map_metallicity_unc.fits',
-	              seeing = 1.03/0.2)
+	          data_path='Demo_data/AS1063_map_metallicity.fits',
+	          unc_path='Demo_data/AS1063_map_metallicity_unc.fits',
+	          seeing = 1.03/0.2)
 
 # Choose a Model, in this case a linear metallicity gradient
 model = Metallicity_Gradient(zlens=0.322,
-							 dfx_path='Demo_data/AS1063_dplx.fits',
-							 dfy_path='Demo_data/AS1063_dply.fits')
+			     dfx_path='Demo_data/AS1063_dplx.fits',
+			     dfy_path='Demo_data/AS1063_dply.fits')
 model.create_projection_maps(obs)
 
 # Fit the data
 input_par = make_input_parameters(name    = ('cx', 'cy',  'q', 'pa', 'z_grad', 'z_0'),
-								 value   = (  29,   23,  0.7,   20,    -0.02, 9.0),
-								 minimum = (  28,   22,  0.4,  -20,     -0.1, 8.5),
-								 maximum = (  33,   27,  0.9,   90,      0.0, 9.5))
+				  value   = (  29,   23,  0.7,   20,    -0.02, 9.0),
+				  minimum = (  28,   22,  0.4,  -20,     -0.1, 8.5),
+				  maximum = (  33,   27,  0.9,   90,      0.0, 9.5))
 out = fit_model(obs,model,input_par,'output_file',nsteps=2000,nwalkers=24)
 
 # Inspect the fit
@@ -55,21 +67,22 @@ results = Output('output_file')
 results.best_parameters()
 ```
 
-## More info
+## Examples 
 
-We have also included two notebooks with in depth examples on how to fit your data.
+We have included two notebooks with two examples on how to fit your data.
 
 examples/demo_fit_metallicity_gradient.ipynb  
 examples/demo_fit_velocity_model.ipynb 
 
-These were galaxies analysied in Patricio et al. 2018 and Patricio et al. 2019.
+These were galaxies analysied in Patricio et al. 2018 and Patricio et al. in prep.
 
 ## Authors
 
 Main author: Vera Patricio
+
 Lensing Specialist: Johan Richard
 
 ## Licence
 
-MIT (BUT TO BE CHECKED)
+TO BE CHECKED
 
