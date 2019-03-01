@@ -52,7 +52,7 @@ It requires the following packages:
 
 
 Quick start
-=================================
+-------------------------------
 
 FRApy is a python module. A minimum working example would look something like this:
 
@@ -87,19 +87,12 @@ FRApy is a python module. A minimum working example would look something like th
 
 
 Mode in depth demos 
-=================================
+-------------------------------
 
 We have included demo data used in Patricio et al. in prep. and two notebooks with examples on how to fit your data.
 
-Click here and here!
-
-Fitting  a Metallicity Gradient
--------------------------------
 
 `Metallicity Gradient Example <https://github.com/VeraPatricio/FRApy/blob/master/examples/demo_fit_metallicity_gradient.ipynb>`_.
-
-Fitting Velocity Field
------------------------
 
 `Velocity Field Example <https://github.com/VeraPatricio/FRApy/blob/master/examples/demo_fit_velocity_model.ipynb>`_.
 
