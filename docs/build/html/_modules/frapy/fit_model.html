@@ -231,8 +231,8 @@
     <span class="n">data_obs</span><span class="p">,</span> <span class="n">data_unc</span> <span class="o">=</span> <span class="n">mask_data</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span><span class="n">mask</span><span class="p">)</span>
    
     <span class="c1"># Bin data if voronoi map is available</span>
-    <span class="n">data_obs</span> <span class="o">=</span> <span class="n">bin_data</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">data</span><span class="p">,</span><span class="n">binning_map</span><span class="p">)</span>
-    <span class="n">data_unc</span> <span class="o">=</span> <span class="n">bin_data</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">unc</span><span class="p">,</span><span class="n">binning_map</span><span class="p">)</span>
+    <span class="n">data_obs</span> <span class="o">=</span> <span class="n">bin_data</span><span class="p">(</span><span class="n">data_obs</span><span class="p">,</span><span class="n">binning_map</span><span class="p">)</span>
+    <span class="n">data_unc</span> <span class="o">=</span> <span class="n">bin_data</span><span class="p">(</span><span class="n">data_unc</span><span class="p">,</span><span class="n">binning_map</span><span class="p">)</span>
 
     <span class="c1"># Priors: uniform</span>
     <span class="k">def</span> <span class="nf">lnprior</span><span class="p">(</span><span class="n">par</span><span class="p">):</span>
@@ -306,7 +306,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Vera Patricio
+        &copy; Copyright 2019, Vera Patricio
 
     </p>
   </div>

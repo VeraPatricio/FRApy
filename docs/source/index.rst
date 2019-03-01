@@ -36,8 +36,25 @@ that we used in our own publications, but we also show how you can create and fi
 Install
 =================================
 
-Add dependencies
+WORK IN PROGRESS.
 
+Right now, the project is available `GitHub <https://github.com/VeraPatricio/FRApy>`_.
+
+It requires the following packages:
+
+numpy==1.15.4
+
+matplotlib==3.0.2
+
+astropy==3.1
+
+reproject==0.4 
+
+emcee==2.2.1
+
+pickle==4.0
+
+corner==2.0.1
 
 
 Quick start
@@ -48,25 +65,26 @@ FRApy is a python module. A minimum working example would look something like th
 .. code-block:: python
 
 	# Import FRApy
-	from frapy import Observation,Metallicity_Gradient,fit_model,make_input_parameters,Output
+	from frapy import Observation,Metallicity_Gradient,Output
+	from frappy import fit_model,make_input_parameters
 
 	# Load Observations
 	obs = Observation(z=0.611,
-              data_path='Demo_data/AS1063_map_metallicity.fits',
-              unc_path='Demo_data/AS1063_map_metallicity_unc.fits',
-              seeing = 1.03/0.2)
+		          data_path='Demo_data/AS1063_map_metallicity.fits',
+		          unc_path='Demo_data/AS1063_map_metallicity_unc.fits',
+		          seeing = 1.03/0.2)
 
 	# Choose a Model, in this case a linear metallicity gradient
 	model = Metallicity_Gradient(zlens=0.322,
-				 dfx_path='Demo_data/AS1063_dplx.fits',
-				 dfy_path='Demo_data/AS1063_dply.fits')
+				     dfx_path='Demo_data/AS1063_dplx.fits',
+				     dfy_path='Demo_data/AS1063_dply.fits')
 	model.create_projection_maps(obs)
 
 	# Fit the data
 	input_par = make_input_parameters(name    = ('cx', 'cy',  'q', 'pa', 'z_grad', 'z_0'),
-					 value   = (  29,   23,  0.7,   20,    -0.02, 9.0),
-					 minimum = (  28,   22,  0.4,  -20,     -0.1, 8.5),
-					 maximum = (  33,   27,  0.9,   90,      0.0, 9.5))
+					  value   = (  29,   23,  0.7,   20,    -0.02, 9.0),
+					  minimum = (  28,   22,  0.4,  -20,     -0.1, 8.5),
+					  maximum = (  33,   27,  0.9,   90,      0.0, 9.5))
 	out = fit_model(obs,model,input_par,'output_file',nsteps=2000,nwalkers=24)
 
 	# Inspect the fit
@@ -77,21 +95,20 @@ FRApy is a python module. A minimum working example would look something like th
 Mode in depth demos 
 =================================
 
-We have also included two notebooks with in depth examples on how to fit your data.
+We have included demo data used in Patricio et al. in prep. and two notebooks with examples on how to fit your data.
+
+Click here and here!
 
 Fitting  a Metallicity Gradient
 -------------------------------
 
-REPLACE THIS WITH LINK TO GITHUB
-
-.. raw:: html
-
-    <iframe src="_static/demo_fit_metallicity_gradient.html" height="345px" width="100%"></iframe>
-
-
+`Metallicity Gradient Example <https://github.com/VeraPatricio/FRApy/blob/master/examples/demo_fit_metallicity_gradient.ipynb>`_.
 
 Fitting Velocity Field
 -----------------------
+
+`Velocity Field Example <https://github.com/VeraPatricio/FRApy/blob/master/examples/demo_fit_velocity_model.ipynb>`_.
+
 .. raw:: html
 
     <iframe src="_static/demo_fit_velocity_model.html" height="345px" width="100%"></iframe>
@@ -103,14 +120,16 @@ Authors and Citations
 
 This code was developed by:
 
-* Vera Patricio, main contributer
+* Vera Patricio (vera.patricio@dark-cosmology.dk), main contributer
 * Johan Richard, lensing specialist
 
 If you use FRApy in your science, please add the following citation:
 
 `Patrício et. al, 2018 <https://ui.adsabs.harvard.edu/#abs/2018MNRAS.477...18P/abstract>`_.
 
-TO COME: PATRICIO 2019
+and 
+
+Patrício et. al, in prep.
 
 and don't forget `astropy <http://www.astropy.org/>`_ and `emcee <http://dfm.io/emcee/current/>`_!	
 

@@ -301,7 +301,7 @@
         <span class="n">data_unc</span> <span class="o">=</span> <span class="n">bin_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">unc</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">binning_map</span><span class="p">)</span>
         <span class="n">convolved_model</span> <span class="o">=</span> <span class="n">bin_data</span><span class="p">(</span><span class="n">convolved_model</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">binning_map</span><span class="p">)</span>
 
-        <span class="n">chi2_image</span> <span class="o">=</span> <span class="p">(</span><span class="n">dbata_obs</span><span class="o">-</span><span class="n">convolved_model</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">data_unc</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">chi2_image</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_obs</span><span class="o">-</span><span class="n">convolved_model</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">data_unc</span><span class="o">**</span><span class="mi">2</span>
         <span class="n">chi2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">chi2_image</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">chi2_image</span><span class="p">))])</span>
         <span class="n">inv_sigma2</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">data_unc</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">lnp</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">((</span><span class="n">data_obs</span><span class="o">-</span><span class="n">convolved_model</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">inv_sigma2</span><span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">inv_sigma2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))))</span>
@@ -325,7 +325,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Vera Patricio
+        &copy; Copyright 2019, Vera Patricio
 
     </p>
   </div>

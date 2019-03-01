@@ -28,7 +28,7 @@ except ImportError:
 # -- Project information -----------------------------------------------------
 
 project = u'FRApy'
-copyright = u'2018, Vera Patricio'
+copyright = u'2019, Vera Patricio'
 author = u'Vera Patricio'
 
 # The short X.Y version

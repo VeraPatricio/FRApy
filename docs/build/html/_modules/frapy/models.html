@@ -159,7 +159,7 @@
 <span class="kn">from</span> <span class="nn">reproject</span> <span class="k">import</span> <span class="n">reproject_interp</span>
 <span class="kn">from</span> <span class="nn">astropy.convolution</span> <span class="k">import</span> <span class="n">convolve</span><span class="p">,</span><span class="n">Gaussian2DKernel</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;BaseModel&#39;</span><span class="p">,</span><span class="s1">&#39;Metallicity_Gradient&#39;</span><span class="p">,</span><span class="s1">&#39;Velocity_Arctangent&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;BaseModel&#39;</span><span class="p">,</span><span class="s1">&#39;Metallicity_Gradient&#39;</span><span class="p">,</span><span class="s1">&#39;Metallicity_Gradient_Constant_Centre&#39;</span><span class="p">,</span><span class="s1">&#39;Velocity_Arctangent&#39;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="BaseModel"><a class="viewcode-back" href="../../index.html#frapy.models.BaseModel">[docs]</a><span class="k">class</span> <span class="nc">BaseModel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Global lensing model to be used in all other Model classes .</span>
@@ -183,9 +183,11 @@
 <span class="sd">    cy: int</span>
 <span class="sd">        y position of the centre (in pixels)</span>
 <span class="sd">    q: float</span>
-<span class="sd">        axis ratio (a/b)</span>
+<span class="sd">        axis ratio (b/a)</span>
 <span class="sd">    pa: float</span>
 <span class="sd">        Position angle (0 North, +90 East )</span>
+<span class="sd">    df_ang: float</span>
+<span class="sd">        Angle between x axis and North (measured anti-clockwise) in the deflection maps.</span>
 <span class="sd">    project_x: float array</span>
 <span class="sd">        Lensing model (deflection in x direction) to be used to a particular object. </span>
 <span class="sd">        Created with the &#39;create_deflection_maps_for_object&#39; method.</span>
@@ -194,9 +196,12 @@
 <span class="sd">        Created with the &#39;create_deflection_maps_for_object&#39; method. </span>
 <span class="sd">    data: array</span>
 <span class="sd">        An array with a realisation of a model made from the current parameter values.</span>
+<span class="sd">    conv_data: array</span>
+<span class="sd">        An array with a realisation of a model made from the current parameter values,</span>
+<span class="sd">        convolved by the seeing of observations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">zlens</span><span class="p">,</span><span class="n">dfx_path</span><span class="p">,</span><span class="n">dfy_path</span><span class="p">,</span><span class="n">cx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">cy</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">pa</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">zlens</span><span class="p">,</span><span class="n">dfx_path</span><span class="p">,</span><span class="n">dfy_path</span><span class="p">,</span><span class="n">df_ang</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">cx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">cy</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">pa</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">zlens</span> <span class="o">=</span> <span class="n">zlens</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">dfx_path</span><span class="p">):</span>
@@ -214,7 +219,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">project_x</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">project_y</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv_data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df_ang</span> <span class="o">=</span> <span class="n">df_ang</span>
 
 <div class="viewcode-block" id="BaseModel.lensing_info"><a class="viewcode-back" href="../../index.html#frapy.models.BaseModel.lensing_info">[docs]</a>    <span class="k">def</span> <span class="nf">lensing_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Prints the lens redshift and deflection maps origin&quot;&quot;&quot;</span>    
@@ -230,6 +236,7 @@
 <span class="sd">        for this particular Observation. The project_x and project_y attributes </span>
 <span class="sd">        are created with this function.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="c1"># Load deflection maps</span>
         <span class="n">dplx</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dfx_path</span><span class="p">)</span>
         <span class="n">dply</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dfy_path</span><span class="p">)</span>
@@ -261,7 +268,9 @@
 
 <div class="viewcode-block" id="BaseModel.convolve_with_seeing"><a class="viewcode-back" href="../../index.html#frapy.models.BaseModel.convolve_with_seeing">[docs]</a>    <span class="k">def</span> <span class="nf">convolve_with_seeing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">seeing</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Convolves a model with a Gaussian with width (sigma) &#39;seeing&#39;.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">convolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">Gaussian2DKernel</span><span class="p">(</span><span class="n">stddev</span><span class="o">=</span><span class="p">(</span><span class="n">seeing</span><span class="p">)),</span><span class="n">boundary</span><span class="o">=</span><span class="s1">&#39;extend&#39;</span><span class="p">)</span></div>
+        <span class="n">conv_model</span> <span class="o">=</span> <span class="n">convolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">Gaussian2DKernel</span><span class="p">(</span><span class="n">stddev</span><span class="o">=</span><span class="p">(</span><span class="n">seeing</span><span class="p">)),</span><span class="n">boundary</span><span class="o">=</span><span class="s1">&#39;extend&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv_data</span> <span class="o">=</span> <span class="n">conv_model</span>
+        <span class="k">return</span> <span class="n">conv_model</span></div>
 
 
 <div class="viewcode-block" id="BaseModel.make_distance_map"><a class="viewcode-back" href="../../index.html#frapy.models.BaseModel.make_distance_map">[docs]</a>    <span class="k">def</span> <span class="nf">make_distance_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -290,10 +299,10 @@
             <span class="n">y_out</span> <span class="o">=</span> <span class="n">centered_project_y</span><span class="p">[</span><span class="n">y_ip</span><span class="p">,</span><span class="n">x_ip</span><span class="p">]</span>
             
             <span class="c1"># Account for rotation (counter-clockwise, North 0, East 90)</span>
-            <span class="n">pa_rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pa</span> <span class="o">-</span> <span class="mf">90.</span><span class="p">)</span>
+            <span class="n">pa_rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_ang</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pa</span><span class="p">)</span>
             <span class="n">x_rot</span> <span class="o">=</span> <span class="n">x_out</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">pa_rad</span><span class="p">)</span><span class="o">+</span><span class="n">y_out</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">pa_rad</span><span class="p">)</span> 
             <span class="n">y_rot</span> <span class="o">=</span> <span class="n">y_out</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">pa_rad</span><span class="p">)</span><span class="o">-</span><span class="n">x_out</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">pa_rad</span><span class="p">)</span>
-            <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">x_rot</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">((</span><span class="n">y_rot</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">x_rot</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="n">y_rot</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">dist</span></div>
 
@@ -323,10 +332,10 @@
             <span class="n">y_out</span> <span class="o">=</span> <span class="n">centered_project_y</span><span class="p">[</span><span class="n">y_ip</span><span class="p">,</span><span class="n">x_ip</span><span class="p">]</span>
             
             <span class="c1"># Account for rotation (counter-clockwise, North 0, East 90)</span>
-            <span class="n">pa_rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pa</span> <span class="o">-</span> <span class="mf">90.</span><span class="p">)</span>
+            <span class="n">pa_rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df_ang</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pa</span><span class="p">)</span>
             <span class="n">x_rot</span> <span class="o">=</span> <span class="n">x_out</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">pa_rad</span><span class="p">)</span><span class="o">+</span><span class="n">y_out</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">pa_rad</span><span class="p">)</span> 
             <span class="n">y_rot</span> <span class="o">=</span> <span class="n">y_out</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">pa_rad</span><span class="p">)</span><span class="o">-</span><span class="n">x_out</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">pa_rad</span><span class="p">)</span>
-            <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">x_rot</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">((</span><span class="n">y_rot</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">x_rot</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="n">y_rot</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
             <span class="n">ratio_x</span> <span class="o">=</span> <span class="n">x_rot</span><span class="o">/</span><span class="n">dist</span>
             <span class="n">ratio_y</span> <span class="o">=</span> <span class="n">y_rot</span><span class="o">/</span><span class="n">dist</span>
@@ -373,8 +382,8 @@
 <span class="sd">        Central metallicity value (value at cx,cy)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">zlens</span><span class="p">,</span><span class="n">dfx_path</span><span class="p">,</span><span class="n">dfy_path</span><span class="p">,</span><span class="n">cx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">cy</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">pa</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">z_grad</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">z_0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="n">BaseModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">zlens</span><span class="p">,</span><span class="n">dfx_path</span><span class="p">,</span><span class="n">dfy_path</span><span class="p">,</span><span class="n">cx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">cy</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">pa</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">zlens</span><span class="p">,</span><span class="n">dfx_path</span><span class="p">,</span><span class="n">dfy_path</span><span class="p">,</span><span class="n">df_ang</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">cx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">cy</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">pa</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">z_grad</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">z_0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">BaseModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">zlens</span><span class="p">,</span><span class="n">dfx_path</span><span class="p">,</span><span class="n">dfy_path</span><span class="p">,</span><span class="n">cx</span><span class="o">=</span><span class="n">cx</span><span class="p">,</span><span class="n">cy</span><span class="o">=</span><span class="n">cy</span><span class="p">,</span><span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">,</span><span class="n">pa</span><span class="o">=</span><span class="n">pa</span><span class="p">,</span><span class="n">df_ang</span><span class="o">=</span><span class="n">df_ang</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">z_grad</span> <span class="o">=</span> <span class="n">z_grad</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">z_0</span> <span class="o">=</span> <span class="n">z_0</span>
 
@@ -399,8 +408,9 @@
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cy: </span><span class="si">%d</span><span class="s1">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">cy</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;q: </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pa: </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">pa</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;z_grad: </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">z_grad</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;z_0: </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">z_0</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;df_ang: </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">df_ang</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;z_grad: </span><span class="si">%0.4f</span><span class="s1">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">z_grad</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;z_0: </span><span class="si">%0.4f</span><span class="s1">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">z_0</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Metallicity_Gradient.update_model_parameters"><a class="viewcode-back" href="../../index.html#frapy.models.Metallicity_Gradient.update_model_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">update_model_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">par</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Updates the parameters of the model.</span>
@@ -480,6 +490,110 @@
         <span class="n">anulli</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">distance_map</span> <span class="o">&gt;</span> <span class="mf">0.8</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">r_flat</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">distance_map</span> <span class="o">&lt;</span> <span class="mf">1.2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">r_flat</span><span class="p">))</span>
         <span class="n">grad</span><span class="p">[</span><span class="n">outter_part</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">grad</span><span class="p">[</span><span class="n">anulli</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">grad</span>
+
+
+<div class="viewcode-block" id="Metallicity_Gradient_Constant_Centre"><a class="viewcode-back" href="../../index.html#frapy.models.Metallicity_Gradient_Constant_Centre">[docs]</a><span class="k">class</span> <span class="nc">Metallicity_Gradient_Constant_Centre</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Linear metallicity gradient with a flatenning of the centre at r_flat.  </span>
+
+<span class="sd">    This model inherits the distance maps attributes (cx,cy,q and pa), from which the metallicity</span>
+<span class="sd">    at each point is calculated assuming a gradient and a central metallicity value:</span>
+
+<span class="sd">    Z(r) = Delta Z * r + Z_0 </span>
+
+<span class="sd">    with r the radius in kpc, Delta Z the gradient in dex/kpc, Z_0 the central metallicity. </span>
+
+<span class="sd">    For r &lt; r_flat, the metallicity is constant.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    cx: int</span>
+<span class="sd">        x position of the centre (in pixels)</span>
+<span class="sd">    cy: int</span>
+<span class="sd">        y position of the centre (in pixels)</span>
+<span class="sd">    q: float</span>
+<span class="sd">        axis ratio (a/b)</span>
+<span class="sd">    pa: float</span>
+<span class="sd">        Position angle (0 North, +90 East )</span>
+<span class="sd">    z_grad: float</span>
+<span class="sd">        Gradient in dex/kpc.</span>
+<span class="sd">    z_0: float</span>
+<span class="sd">        Central metallicity value (value at cx,cy)</span>
+<span class="sd">    r_flat: float</span>
+<span class="sd">        Radius that delimits the central zone where the metallicity is flat</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">zlens</span><span class="p">,</span><span class="n">dfx_path</span><span class="p">,</span><span class="n">dfy_path</span><span class="p">,</span><span class="n">cx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">cy</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">pa</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">z_grad</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">z_0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="n">r_flat</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">z_grad_inner</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">BaseModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">zlens</span><span class="p">,</span><span class="n">dfx_path</span><span class="p">,</span><span class="n">dfy_path</span><span class="p">,</span><span class="n">cx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">cy</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">pa</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z_grad</span> <span class="o">=</span> <span class="n">z_grad</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z_0</span> <span class="o">=</span> <span class="n">z_0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">r_flat</span> <span class="o">=</span> <span class="n">r_flat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z_grad_inner</span> <span class="o">=</span> <span class="n">z_grad_inner</span>
+
+
+<div class="viewcode-block" id="Metallicity_Gradient_Constant_Centre.model_name"><a class="viewcode-back" href="../../index.html#frapy.models.Metallicity_Gradient_Constant_Centre.model_name">[docs]</a>    <span class="k">def</span> <span class="nf">model_name</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Returns the model&#39;s name&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;Metallicity_Gradient_constant_centre&#39;</span></div>
+
+<div class="viewcode-block" id="Metallicity_Gradient_Constant_Centre.model_parameters"><a class="viewcode-back" href="../../index.html#frapy.models.Metallicity_Gradient_Constant_Centre.model_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">model_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the model&#39;s parameters&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cx: x position of the centre (in pixels)&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cy: y position of the centre (in pixels)&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;q: axis ratio (a/b)&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pa: position angle (in degrees)&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;z_grad : gradient in dex/kpc&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;z_0: central metallicity&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;r_flat: maximum radius of the central (flat) region&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;z_grad_inner: metallicity gradient of the inner part&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;cx&#39;</span><span class="p">,</span><span class="s1">&#39;cy&#39;</span><span class="p">,</span><span class="s1">&#39;q&#39;</span><span class="p">,</span><span class="s1">&#39;pa&#39;</span><span class="p">,</span><span class="s1">&#39;z_grad&#39;</span><span class="p">,</span><span class="s1">&#39;z_0&#39;</span><span class="p">,</span><span class="s1">&#39;r_flat&#39;</span><span class="p">,</span><span class="s1">&#39;z_grad_inner&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Metallicity_Gradient_Constant_Centre.print_parameter_values"><a class="viewcode-back" href="../../index.html#frapy.models.Metallicity_Gradient_Constant_Centre.print_parameter_values">[docs]</a>    <span class="k">def</span> <span class="nf">print_parameter_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the model&#39;s parameters values&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cx: </span><span class="si">%d</span><span class="s1">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">cx</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cy: </span><span class="si">%d</span><span class="s1">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">cy</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;q: </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pa: </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">pa</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;z_grad: </span><span class="si">%0.4f</span><span class="s1">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">z_grad</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;z_0: </span><span class="si">%0.4f</span><span class="s1">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">z_0</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;r_flat: </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">r_flat</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;z_grad_inner: </span><span class="si">%0.4f</span><span class="s1">&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">z_grad_inner</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Metallicity_Gradient_Constant_Centre.update_model_parameters"><a class="viewcode-back" href="../../index.html#frapy.models.Metallicity_Gradient_Constant_Centre.update_model_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">update_model_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">par</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates the parameters of the model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        par: dictionary</span>
+<span class="sd">            dictionary in the shape {&#39;name&#39;:parameter_name, &#39;value&#39;:parameter value}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">par</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;cx&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cx</span> <span class="o">=</span> <span class="n">par</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;cy&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cy</span> <span class="o">=</span> <span class="n">par</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;q&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">=</span> <span class="n">par</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;pa&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pa</span> <span class="o">=</span> <span class="n">par</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;z_grad&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">z_grad</span> <span class="o">=</span> <span class="n">par</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;z_0&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">z_0</span> <span class="o">=</span> <span class="n">par</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;r_flat&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">r_flat</span> <span class="o">=</span> <span class="n">par</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;z_grad_inner&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">z_grad_inner</span> <span class="o">=</span> <span class="n">par</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Metallicity_Gradient_Constant_Centre.make_model"><a class="viewcode-back" href="../../index.html#frapy.models.Metallicity_Gradient_Constant_Centre.make_model">[docs]</a>    <span class="k">def</span> <span class="nf">make_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Makes a model using the current parameters&#39; values and stores it </span>
+<span class="sd">        in the &#39;data&#39; attribute&quot;&quot;&quot;</span>
+        <span class="n">distance_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_distance_map</span><span class="p">()</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">distance_map</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_grad</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_0</span>
+        <span class="n">grad_inner</span> <span class="o">=</span> <span class="n">distance_map</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_grad_inner</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_0</span>
+        <span class="n">inner_part</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">distance_map</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">r_flat</span><span class="p">)</span>
+        <span class="n">grad</span><span class="p">[</span><span class="n">inner_part</span><span class="p">]</span> <span class="o">=</span> <span class="n">grad_inner</span><span class="p">[</span><span class="n">inner_part</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">grad</span>
+        <span class="k">return</span> <span class="n">grad</span></div></div>
 
 
 <div class="viewcode-block" id="Velocity_Arctangent"><a class="viewcode-back" href="../../index.html#frapy.models.Velocity_Arctangent">[docs]</a><span class="k">class</span> <span class="nc">Velocity_Arctangent</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -583,7 +697,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Vera Patricio
+        &copy; Copyright 2019, Vera Patricio
 
     </p>
   </div>

@@ -142,7 +142,6 @@
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This module containts miscelaneous functions used in the fitting.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">astropy.io</span> <span class="k">import</span> <span class="n">fits</span>
@@ -227,6 +226,7 @@
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Mask and observations do not have the same shape: (</span><span class="si">%s</span><span class="s1">,</span><span class="si">%s</span><span class="s1">)&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">Observation</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
 
         <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Masking data&#39;</span><span class="p">)</span>
             <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
             <span class="n">mask</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
             <span class="n">data_obs</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span> <span class="n">mask</span>
@@ -246,7 +246,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Vera Patricio
+        &copy; Copyright 2019, Vera Patricio
 
     </p>
   </div>
