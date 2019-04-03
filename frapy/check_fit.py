@@ -28,7 +28,11 @@ class Output(object):
 
         self.outfile = outfile
     
-        results = pickle.load(open(self.outfile+".pickle",'rb'))    
+        try:
+            results = pickle.load(open(self.outfile+".pickle",'rb'))
+        # To avoid issues between python 2 -> 3
+        except UnicodeDecodeError:    
+            results = pickle.load(open(self.outfile+".pickle",'rb'),encoding='latin1')
 
         self.chain = results['chain']
         self.lnprobability = results['lnprobability'] 
