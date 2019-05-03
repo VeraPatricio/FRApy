@@ -2,16 +2,16 @@
 FRApy: Fitting Resolved Arcs with python
 #########################################
 
-FRApy is python code designed to fit gravitational arcs in image plane with analytical modes, such as metallicity gradients and velocity fields, taking into account the lensing distortions.
+FRApy is python code that fits gravitational arcs in image plane with analytical modes, such as metallicity gradients and velocity fields, taking into account the lensing distortions. This is done in a Bayesian framework, by minimising a log-logarithm likelihood function using an MCMC sampler (`emcee < http://dfm.io/emcee/current/>`_).
 
 
 Intro
 =================================
 
-Graviatational arcs
+Gravitational arcs
 --------------------
 
-Gravitational arcs are galaxies in the backgroud of a cluster of galaxies or a massive galaxy. These massive objects act as a *magnifying lens*, increasing the size of the backgroud galaxies in the sky, which allows us to resolve them to smaller spatial scales. However, the magnification is not uniform, and the lensed galaxies appear 'distorted' in the sky, typically in an arc-like shape (hence the name graviational 'arcs').
+Gravitational arcs are galaxies in the backgroud of a cluster of galaxies or a massive galaxy. These massive objects act as a *magnifying lens*, increasing the size of the backgroud galaxies in the sky, which allows us to resolve them at smaller spatial scales. However, the magnification is not uniform, and the lensed galaxies appear 'distorted' in the sky, typically in an arc-like shape (hence the name graviational 'arcs').
 
 .. figure:: _static/a370.png
    :scale: 120 %
@@ -21,13 +21,13 @@ Gravitational arcs are galaxies in the backgroud of a cluster of galaxies or a m
 
 
 
-The spatial distortion makes the analysis of these objects more difficult, especially when several images of the same object (called multiple images) are available. FRApy deals with this issue through forward-modelling: we start with a model in source plane (the 'undistorted' galaxy), lense it to image plane using a lensing model and compare it with the data.
+The spatial distortion makes the analysis of these objects more difficult, especially when several images of the same object (called multiple images) are available. FRApy deals with this issue through forward-modelling: we start with a model in source plane (the 'undistorted' galaxy), lens it to image plane using a lensing model and compare it with the data.
 
 
 What you'll need
 --------------------
 
-1. Deflection maps. These are images produced from a lensing model that map how much deflection (in arcseconds) a little photon originated in position x,y in the sky will suffer due to the gravitational lens. This is the core of FRApy's modelling and allows us to generate lensed images that can be compared with the observations. We do this by calculating where each pixel in source plane will 'land' in image plane. A number of Frontier Fields models provide these maps, you can check them `here <https://archive.stsci.edu/pub/hlsp/frontier/abell370/models/>`_.
+1. Deflection maps. These are images produced from a lensing model that map how much deflection (in arcseconds) a little photon originated in position x,y in the sky will suffer due to the gravitational lens. This is the core of FRApy's modelling and allows us to generate lensed images that can be compared with the observations. We do this by calculating where each pixel in source plane will 'land' in image plane. A number of Frontier Fields models provide these maps, you can check them `here <https://archive.stsci.edu/pub/hlsp/frontier/abell370/models/>`_. It is also possible to create these maps using LENSTOOL using the `dpl <https://projets.lam.fr/projects/lenstool/wiki/RunMode#dpl-int1-int2-float-filename1-filename2>`_ command. 
 
 2. An analytical model that you hope describes your data, such as a gradient for metallicity or an arctangent model velocity fields. FRApy comes with a number of these models,
 that we used in our own publications, but we also show how you can create and fit your own model.
@@ -42,13 +42,13 @@ Right now, the project is available `GitHub <https://github.com/VeraPatricio/FRA
 
 It requires the following packages:
 
-	numpy==1.15.4
-	matplotlib==3.0.2
-	astropy==3.1
-	reproject==0.4 
-	emcee==2.2.1
-	pickle==4.0
-	corner==2.0.1
+	- numpy==1.15.4
+	- matplotlib==3.0.2
+	- astropy==3.1
+	- reproject==0.4 
+	- emcee==2.2.1
+	- pickle==4.0
+	- corner==2.0.1
 
 
 Quick start

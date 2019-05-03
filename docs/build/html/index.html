@@ -80,7 +80,7 @@
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">FRApy: Fitting Resolved Arcs with python</a><ul>
 <li><a class="reference internal" href="#intro">Intro</a><ul>
-<li><a class="reference internal" href="#graviatational-arcs">Graviatational arcs</a></li>
+<li><a class="reference internal" href="#gravitational-arcs">Gravitational arcs</a></li>
 <li><a class="reference internal" href="#what-you-ll-need">What you’ll need</a></li>
 </ul>
 </li>
@@ -167,22 +167,22 @@
             
   <div class="section" id="frapy-fitting-resolved-arcs-with-python">
 <h1>FRApy: Fitting Resolved Arcs with python<a class="headerlink" href="#frapy-fitting-resolved-arcs-with-python" title="Permalink to this headline">¶</a></h1>
-<p>FRApy is python code designed to fit gravitational arcs in image plane with analytical modes, such as metallicity gradients and velocity fields, taking into account the lensing distortions.</p>
+<p>FRApy is python code that fits gravitational arcs in image plane with analytical modes, such as metallicity gradients and velocity fields, taking into account the lensing distortions. This is done in a Bayesian framework, by minimising a log-logarithm likelihood function using an MCMC sampler (<a href="#id2"><span class="problematic" id="id3">`emcee &lt; http://dfm.io/emcee/current/&gt;`_</span></a>).</p>
 <div class="section" id="intro">
 <h2>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="graviatational-arcs">
-<h3>Graviatational arcs<a class="headerlink" href="#graviatational-arcs" title="Permalink to this headline">¶</a></h3>
-<p>Gravitational arcs are galaxies in the backgroud of a cluster of galaxies or a massive galaxy. These massive objects act as a <em>magnifying lens</em>, increasing the size of the backgroud galaxies in the sky, which allows us to resolve them to smaller spatial scales. However, the magnification is not uniform, and the lensed galaxies appear ‘distorted’ in the sky, typically in an arc-like shape (hence the name graviational ‘arcs’).</p>
+<div class="section" id="gravitational-arcs">
+<h3>Gravitational arcs<a class="headerlink" href="#gravitational-arcs" title="Permalink to this headline">¶</a></h3>
+<p>Gravitational arcs are galaxies in the backgroud of a cluster of galaxies or a massive galaxy. These massive objects act as a <em>magnifying lens</em>, increasing the size of the backgroud galaxies in the sky, which allows us to resolve them at smaller spatial scales. However, the magnification is not uniform, and the lensed galaxies appear ‘distorted’ in the sky, typically in an arc-like shape (hence the name graviational ‘arcs’).</p>
 <div class="figure" id="id1">
 <a class="reference internal image-reference" href="_images/a370.png"><img alt="Example of graviational arc." src="_images/a370.png" style="width: 651.6px; height: 304.8px;" /></a>
 <p class="caption"><span class="caption-text">This is a gravitational arc called ‘the dragon’ lensed by the cluster Abell 370. On the left, you can see it in <em>image plane</em>, i.e. as it is in the sky, magnified it all its messy glory. On the right, we have use a lensing model to correct this magnification and get ‘the real galaxy’. This is called the <em>source plane</em> image.</span></p>
 </div>
-<p>The spatial distortion makes the analysis of these objects more difficult, especially when several images of the same object (called multiple images) are available. FRApy deals with this issue through forward-modelling: we start with a model in source plane (the ‘undistorted’ galaxy), lense it to image plane using a lensing model and compare it with the data.</p>
+<p>The spatial distortion makes the analysis of these objects more difficult, especially when several images of the same object (called multiple images) are available. FRApy deals with this issue through forward-modelling: we start with a model in source plane (the ‘undistorted’ galaxy), lens it to image plane using a lensing model and compare it with the data.</p>
 </div>
 <div class="section" id="what-you-ll-need">
 <h3>What you’ll need<a class="headerlink" href="#what-you-ll-need" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
-<li>Deflection maps. These are images produced from a lensing model that map how much deflection (in arcseconds) a little photon originated in position x,y in the sky will suffer due to the gravitational lens. This is the core of FRApy’s modelling and allows us to generate lensed images that can be compared with the observations. We do this by calculating where each pixel in source plane will ‘land’ in image plane. A number of Frontier Fields models provide these maps, you can check them <a class="reference external" href="https://archive.stsci.edu/pub/hlsp/frontier/abell370/models/">here</a>.</li>
+<li>Deflection maps. These are images produced from a lensing model that map how much deflection (in arcseconds) a little photon originated in position x,y in the sky will suffer due to the gravitational lens. This is the core of FRApy’s modelling and allows us to generate lensed images that can be compared with the observations. We do this by calculating where each pixel in source plane will ‘land’ in image plane. A number of Frontier Fields models provide these maps, you can check them <a class="reference external" href="https://archive.stsci.edu/pub/hlsp/frontier/abell370/models/">here</a>. It is also possible to create these maps using LENSTOOL using the <a class="reference external" href="https://projets.lam.fr/projects/lenstool/wiki/RunMode#dpl-int1-int2-float-filename1-filename2">dpl</a> command.</li>
 </ol>
 <p>2. An analytical model that you hope describes your data, such as a gradient for metallicity or an arctangent model velocity fields. FRApy comes with a number of these models,
 that we used in our own publications, but we also show how you can create and fit your own model.</p>
@@ -194,13 +194,16 @@ that we used in our own publications, but we also show how you can create and fi
 <p>Right now, the project is available <a class="reference external" href="https://github.com/VeraPatricio/FRApy">GitHub</a>.</p>
 <p>It requires the following packages:</p>
 <blockquote>
-<div>numpy==1.15.4
-matplotlib==3.0.2
-astropy==3.1
-reproject==0.4
-emcee==2.2.1
-pickle==4.0
-corner==2.0.1</div></blockquote>
+<div><ul class="simple">
+<li>numpy==1.15.4</li>
+<li>matplotlib==3.0.2</li>
+<li>astropy==3.1</li>
+<li>reproject==0.4</li>
+<li>emcee==2.2.1</li>
+<li>pickle==4.0</li>
+<li>corner==2.0.1</li>
+</ul>
+</div></blockquote>
 <div class="section" id="quick-start">
 <h3>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h3>
 <p>FRApy is a python module. A minimum working example would look something like this:</p>
