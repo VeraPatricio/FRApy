@@ -60,7 +60,7 @@ FRApy is a python module. A minimum working example would look something like th
 
 	# Import FRApy
 	from frapy import Observation,Metallicity_Gradient,Output
-	from frappy import fit_model,make_input_parameters
+	from frapy import fit_model,make_input_parameters
 
 	# Load Observations
 	obs = Observation(z=0.611,
