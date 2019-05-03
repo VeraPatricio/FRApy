@@ -1,7 +1,7 @@
-numpy==1.15.4
-matplotlib==3.0.2
 astropy==3.1
-reproject==0.4 
-emcee==2.2.1
-pickle==4.0.0
+astropy-healpix==0.4
 corner==2.0.1
+emcee==2.2.1
+matplotlib==3.0.2
+numpy==1.15.4
+reproject==0.4

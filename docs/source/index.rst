@@ -36,9 +36,9 @@ that we used in our own publications, but we also show how you can create and fi
 Install
 =================================
 
-WORK IN PROGRESS.
+>> pip install -i https://test.pypi.org/simple/ FRApy
 
-Right now, the project is available `GitHub <https://github.com/VeraPatricio/FRApy>`_.
+The project is also available `GitHub <https://github.com/VeraPatricio/FRApy>`_.
 
 It requires the following packages:
 
