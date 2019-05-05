@@ -2,7 +2,7 @@
 FRApy: Fitting Resolved Arcs with python
 #########################################
 
-FRApy is python code that fits gravitational arcs in image plane with analytical modes, such as metallicity gradients and velocity fields, taking into account the lensing distortions. This is done in a Bayesian framework, by minimising a log-logarithm likelihood function using an MCMC sampler (`emcee < http://dfm.io/emcee/current/>`_).
+FRApy is python code that fits gravitational arcs in image plane with analytical modes, such as metallicity gradients and velocity fields, taking into account the lensing distortions. This is done in a Bayesian framework, by maximising a log-logarithm likelihood function using an MCMC sampler (`emcee <http://dfm.io/emcee/current/>`_).
 
 
 Intro
@@ -36,9 +36,9 @@ that we used in our own publications, but we also show how you can create and fi
 Install
 =================================
 
-WORK IN PROGRESS.
+>> pip install -i https://test.pypi.org/simple/ FRApy
 
-Right now, the project is available `GitHub <https://github.com/VeraPatricio/FRApy>`_.
+The project is also available `GitHub <https://github.com/VeraPatricio/FRApy>`_.
 
 It requires the following packages:
 
@@ -60,7 +60,7 @@ FRApy is a python module. A minimum working example would look something like th
 
 	# Import FRApy
 	from frapy import Observation,Metallicity_Gradient,Output
-	from frappy import fit_model,make_input_parameters
+	from frapy import fit_model,make_input_parameters
 
 	# Load Observations
 	obs = Observation(z=0.611,

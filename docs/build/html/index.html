@@ -167,13 +167,13 @@
             
   <div class="section" id="frapy-fitting-resolved-arcs-with-python">
 <h1>FRApy: Fitting Resolved Arcs with python<a class="headerlink" href="#frapy-fitting-resolved-arcs-with-python" title="Permalink to this headline">¶</a></h1>
-<p>FRApy is python code that fits gravitational arcs in image plane with analytical modes, such as metallicity gradients and velocity fields, taking into account the lensing distortions. This is done in a Bayesian framework, by minimising a log-logarithm likelihood function using an MCMC sampler (<a href="#id2"><span class="problematic" id="id3">`emcee &lt; http://dfm.io/emcee/current/&gt;`_</span></a>).</p>
+<p>FRApy is python code that fits gravitational arcs in image plane with analytical modes, such as metallicity gradients and velocity fields, taking into account the lensing distortions. This is done in a Bayesian framework, by maximising a log-logarithm likelihood function using an MCMC sampler (<a class="reference external" href="http://dfm.io/emcee/current/">emcee</a>).</p>
 <div class="section" id="intro">
 <h2>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="gravitational-arcs">
 <h3>Gravitational arcs<a class="headerlink" href="#gravitational-arcs" title="Permalink to this headline">¶</a></h3>
 <p>Gravitational arcs are galaxies in the backgroud of a cluster of galaxies or a massive galaxy. These massive objects act as a <em>magnifying lens</em>, increasing the size of the backgroud galaxies in the sky, which allows us to resolve them at smaller spatial scales. However, the magnification is not uniform, and the lensed galaxies appear ‘distorted’ in the sky, typically in an arc-like shape (hence the name graviational ‘arcs’).</p>
-<div class="figure" id="id1">
+<div class="figure" id="id2">
 <a class="reference internal image-reference" href="_images/a370.png"><img alt="Example of graviational arc." src="_images/a370.png" style="width: 651.6px; height: 304.8px;" /></a>
 <p class="caption"><span class="caption-text">This is a gravitational arc called ‘the dragon’ lensed by the cluster Abell 370. On the left, you can see it in <em>image plane</em>, i.e. as it is in the sky, magnified it all its messy glory. On the right, we have use a lensing model to correct this magnification and get ‘the real galaxy’. This is called the <em>source plane</em> image.</span></p>
 </div>
@@ -190,8 +190,8 @@ that we used in our own publications, but we also show how you can create and fi
 </div>
 <div class="section" id="install">
 <h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
-<p>WORK IN PROGRESS.</p>
-<p>Right now, the project is available <a class="reference external" href="https://github.com/VeraPatricio/FRApy">GitHub</a>.</p>
+<p>&gt;&gt; pip install -i <a class="reference external" href="https://test.pypi.org/simple/">https://test.pypi.org/simple/</a> FRApy</p>
+<p>The project is also available <a class="reference external" href="https://github.com/VeraPatricio/FRApy">GitHub</a>.</p>
 <p>It requires the following packages:</p>
 <blockquote>
 <div><ul class="simple">
@@ -209,7 +209,7 @@ that we used in our own publications, but we also show how you can create and fi
 <p>FRApy is a python module. A minimum working example would look something like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import FRApy</span>
 <span class="kn">from</span> <span class="nn">frapy</span> <span class="kn">import</span> <span class="n">Observation</span><span class="p">,</span><span class="n">Metallicity_Gradient</span><span class="p">,</span><span class="n">Output</span>
-<span class="kn">from</span> <span class="nn">frappy</span> <span class="kn">import</span> <span class="n">fit_model</span><span class="p">,</span><span class="n">make_input_parameters</span>
+<span class="kn">from</span> <span class="nn">frapy</span> <span class="kn">import</span> <span class="n">fit_model</span><span class="p">,</span><span class="n">make_input_parameters</span>
 
 <span class="c1"># Load Observations</span>
 <span class="n">obs</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">z</span><span class="o">=</span><span class="mf">0.611</span><span class="p">,</span>
