@@ -1,4 +1,5 @@
 
+
 FRApy: Fitting Resolved Arcs with python
 #########################################
 
@@ -114,7 +115,6 @@ and
 Patrício et. al, in prep.
 
 and don't forget `astropy <http://www.astropy.org/>`_ and `emcee <http://dfm.io/emcee/current/>`_!	
-
 
 Code Documentation 
 =================================
