@@ -103,7 +103,7 @@ Authors and Citations
 
 This code was developed by:
 
-* Vera Patricio (vera.patricio@dark-cosmology.dk), main contributer
+* Vera Patricio (vera.patricio@dark-cosmology.dk)
 * Johan Richard, lensing specialist
 
 If you use FRApy in your science, please add the following citation:
@@ -116,36 +116,36 @@ Patrício et. al, in prep.
 
 and don't forget `astropy <http://www.astropy.org/>`_ and `emcee <http://dfm.io/emcee/current/>`_!	
 
-Code Documentation 
-=================================
 
-'''.. toctree::
+Documentation for the Code
+**************************
+
+.. toctree::
    :maxdepth: 2
-   :caption: Contents:'''
-
+   :caption: Contents:
 
 Observations
--------------------------------
+===================
 .. automodule:: frapy.observations
 	:members:
 
 Models
--------------------------------
+===================
 .. automodule:: frapy.models
 	:members:
 
 Fitting
--------------------------------
+===================
 .. automodule:: frapy.fit_model
 	:members:
 
 Explore the output
--------------------------------
+===================
 .. automodule:: frapy.check_fit
 	:members:
 
 Miscelaneous
--------------------------------
+===================
 .. automodule:: frapy.utils
 	:members:
 

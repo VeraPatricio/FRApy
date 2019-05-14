@@ -35,19 +35,19 @@ FRApy is python code that fits gravitational arcs in image plane with analytical
 .SH INTRO
 .SS Gravitational arcs
 .sp
-Gravitational arcs are galaxies in the backgroud of a cluster of galaxies or a massive galaxy. These massive objects act as a \fImagnifying lens\fP, increasing the size of the backgroud galaxies in the sky, which allows us to resolve them at smaller spatial scales. However, the magnification is not uniform, and the lensed galaxies appear \(aqdistorted\(aq in the sky, typically in an arc\-like shape (hence the name graviational \(aqarcs\(aq).
+Gravitational arcs are galaxies in the backgroud of a cluster of galaxies or a massive galaxy. These massive objects act as a \fImagnifying lens\fP, increasing the size of the backgroud galaxies in the sky, which allows us to resolve them at smaller spatial scales. However, the magnification is not uniform, and the lensed galaxies appear ‘distorted’ in the sky, typically in an arc\-like shape (hence the name graviational ‘arcs’).
 .INDENT 0.0
 .INDENT 2.5
 [image: Example of graviational arc.]
 [image]
-This is a gravitational arc called \(aqthe dragon\(aq lensed by the cluster Abell 370. On the left, you can see it in \fIimage plane\fP, i.e. as it is in the sky, magnified it all its messy glory. On the right, we have use a lensing model to correct this magnification and get \(aqthe real galaxy\(aq. This is called the \fIsource plane\fP image..UNINDENT
+This is a gravitational arc called ‘the dragon’ lensed by the cluster Abell 370. On the left, you can see it in \fIimage plane\fP, i.e. as it is in the sky, magnified it all its messy glory. On the right, we have use a lensing model to correct this magnification and get ‘the real galaxy’. This is called the \fIsource plane\fP image..UNINDENT
 .UNINDENT
 .sp
-The spatial distortion makes the analysis of these objects more difficult, especially when several images of the same object (called multiple images) are available. FRApy deals with this issue through forward\-modelling: we start with a model in source plane (the \(aqundistorted\(aq galaxy), lens it to image plane using a lensing model and compare it with the data.
-.SS What you\(aqll need
+The spatial distortion makes the analysis of these objects more difficult, especially when several images of the same object (called multiple images) are available. FRApy deals with this issue through forward\-modelling: we start with a model in source plane (the ‘undistorted’ galaxy), lens it to image plane using a lensing model and compare it with the data.
+.SS What you’ll need
 .INDENT 0.0
 .IP 1. 3
-Deflection maps. These are images produced from a lensing model that map how much deflection (in arcseconds) a little photon originated in position x,y in the sky will suffer due to the gravitational lens. This is the core of FRApy\(aqs modelling and allows us to generate lensed images that can be compared with the observations. We do this by calculating where each pixel in source plane will \(aqland\(aq in image plane. A number of Frontier Fields models provide these maps, you can check them \fI\%here\fP\&. It is also possible to create these maps using LENSTOOL using the \fI\%dpl\fP command.
+Deflection maps. These are images produced from a lensing model that map how much deflection (in arcseconds) a little photon originated in position x,y in the sky will suffer due to the gravitational lens. This is the core of FRApy’s modelling and allows us to generate lensed images that can be compared with the observations. We do this by calculating where each pixel in source plane will ‘land’ in image plane. A number of Frontier Fields models provide these maps, you can check them \fI\%here\fP\&. It is also possible to create these maps using LENSTOOL using the \fI\%dpl\fP command.
 .UNINDENT
 .sp
 2. An analytical model that you hope describes your data, such as a gradient for metallicity or an arctangent model velocity fields. FRApy comes with a number of these models,
@@ -129,7 +129,7 @@ We have included demo data used in Patricio et al. in prep. and two notebooks wi
 This code was developed by:
 .INDENT 0.0
 .IP \(bu 2
-Vera Patricio (\fI\%vera.patricio@dark\-cosmology.dk\fP), main contributer
+Vera Patricio (\fI\%vera.patricio@dark\-cosmology.dk\fP)
 .IP \(bu 2
 Johan Richard, lensing specialist
 .UNINDENT
@@ -142,21 +142,8 @@ and
 .sp
 Patrício et. al, in prep.
 .sp
-and don\(aqt forget \fI\%astropy\fP and \fI\%emcee\fP!
-.SH CODE DOCUMENTATION
-.INDENT 0.0
-.TP
-.B \(aq\(aq\(aq.. toctree::
-.INDENT 7.0
-.TP
-.B maxdepth
-2
-.TP
-.B caption
-Contents:\(aq\(aq\(aq
-.UNINDENT
-.UNINDENT
-.SS Observations
+and don’t forget \fI\%astropy\fP and \fI\%emcee\fP!
+.SH OBSERVATIONS
 .INDENT 0.0
 .TP
 .B class frapy.observations.Observation(data_path, z, unc_path=None, seeing=0)
@@ -170,17 +157,17 @@ of the object and the seeing.
 .B Parameters
 .INDENT 7.0
 .IP \(bu 2
-\fBdata_path\fP (\fI\%str\fP) \-\- Path to the fits file containing the data.
+\fBdata_path\fP (\fI\%str\fP) – Path to the fits file containing the data.
 .IP \(bu 2
-\fBunc_path\fP (\fI\%str\fP) \-\- Path to the fits file containing the associated uncertainty (optional).
+\fBunc_path\fP (\fI\%str\fP) – Path to the fits file containing the associated uncertainty (optional).
 .IP \(bu 2
-\fBz\fP (\fI\%float\fP) \-\- Redshift.
+\fBz\fP (\fI\%float\fP) – Redshift.
 .IP \(bu 2
-\fBseeing\fP (\fI\%float\fP) \-\- Seeing (in pixels). To be used in the model convolution.
+\fBseeing\fP (\fI\%float\fP) – Seeing (in pixels). To be used in the model convolution.
 .IP \(bu 2
-\fBdata\fP (\fIfloat array\fP) \-\- Data to be fitted. It is read from the data_path
+\fBdata\fP (\fIfloat array\fP) – Data to be fitted. It is read from the data_path
 .IP \(bu 2
-\fBunc\fP (\fIfloat array\fP) \-\- Data uncertainted. It is read from the unc_path.
+\fBunc\fP (\fIfloat array\fP) – Data uncertainted. It is read from the unc_path.
 .UNINDENT
 .UNINDENT
 .INDENT 7.0
@@ -198,7 +185,7 @@ Plots the data and uncertainty.
 :type unc_lim: (float,float)
 .UNINDENT
 .UNINDENT
-.SS Models
+.SH MODELS
 .sp
 The BaseModel handles all the lensing part, producing a distance map
 that is used by all the other models.
@@ -211,51 +198,51 @@ This class prepares the deflection maps to be used with a particular object (i.e
 at a particular redshift) and observations (i.e. aligns the maps with the data).
 .sp
 The main output is a distance map, in kiloparsecs, and an azimuthal map that serve
-as base for all the models being fit (metallicity gradient, velocity...)
+as base for all the models being fit (metallicity gradient, velocity…)
 .INDENT 7.0
 .TP
 .B Parameters
 .INDENT 7.0
 .IP \(bu 2
-\fBz_lens\fP (\fI\%float\fP) \-\- Redshift of the gravitational lens.
+\fBz_lens\fP (\fI\%float\fP) – Redshift of the gravitational lens.
 .IP \(bu 2
-\fBdfx_path\fP (\fI\%str\fP) \-\- Path to the fits file with the x deflection.
+\fBdfx_path\fP (\fI\%str\fP) – Path to the fits file with the x deflection.
 .IP \(bu 2
-\fBdfy_path\fP (\fI\%str\fP) \-\- Path to the fits file with the y deflection.
+\fBdfy_path\fP (\fI\%str\fP) – Path to the fits file with the y deflection.
 .IP \(bu 2
-\fBcx\fP (\fI\%int\fP) \-\- x position of the centre (in pixels)
+\fBcx\fP (\fI\%int\fP) – x position of the centre (in pixels)
 .IP \(bu 2
-\fBcy\fP (\fI\%int\fP) \-\- y position of the centre (in pixels)
+\fBcy\fP (\fI\%int\fP) – y position of the centre (in pixels)
 .IP \(bu 2
-\fBq\fP (\fI\%float\fP) \-\- axis ratio (b/a)
+\fBq\fP (\fI\%float\fP) – axis ratio (b/a)
 .IP \(bu 2
-\fBpa\fP (\fI\%float\fP) \-\- Position angle (0 North, +90 East )
+\fBpa\fP (\fI\%float\fP) – Position angle (0 North, +90 East )
 .IP \(bu 2
-\fBdf_ang\fP (\fI\%float\fP) \-\- Angle between x axis and North (measured anti\-clockwise) in the deflection maps.
+\fBdf_ang\fP (\fI\%float\fP) – Angle between x axis and North (measured anti\-clockwise) in the deflection maps.
 .IP \(bu 2
-\fBproject_x\fP (\fIfloat array\fP) \-\- Lensing model (deflection in x direction) to be used to a particular object.
-Created with the \(aqcreate_deflection_maps_for_object\(aq method.
+\fBproject_x\fP (\fIfloat array\fP) – Lensing model (deflection in x direction) to be used to a particular object.
+Created with the ‘create_deflection_maps_for_object’ method.
 .IP \(bu 2
-\fBproject_y\fP (\fIfloat array\fP) \-\- Lensing model (deflection in y direction) to be used to a particular object.
-Created with the \(aqcreate_deflection_maps_for_object\(aq method.
+\fBproject_y\fP (\fIfloat array\fP) – Lensing model (deflection in y direction) to be used to a particular object.
+Created with the ‘create_deflection_maps_for_object’ method.
 .IP \(bu 2
-\fBdata\fP (\fIarray\fP) \-\- An array with a realisation of a model made from the current parameter values.
+\fBdata\fP (\fIarray\fP) – An array with a realisation of a model made from the current parameter values.
 .IP \(bu 2
-\fBconv_data\fP (\fIarray\fP) \-\- An array with a realisation of a model made from the current parameter values,
+\fBconv_data\fP (\fIarray\fP) – An array with a realisation of a model made from the current parameter values,
 convolved by the seeing of observations.
 .UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B convolve_with_seeing(seeing)
-Convolves a model with a Gaussian with width (sigma) \(aqseeing\(aq.
+Convolves a model with a Gaussian with width (sigma) ‘seeing’.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B create_projection_maps(Observation, correct_z=True)
 Takes the more global deflection maps produced by a graviatational
-lensing fitting code, and converts these maps to \(aqprojection\(aq maps, that
-maps where a pixel in source plane should be \(aqprojected\(aq in image plane,
+lensing fitting code, and converts these maps to ‘projection’ maps, that
+maps where a pixel in source plane should be ‘projected’ in image plane,
 for this particular Observation. The project_x and project_y attributes
 are created with this function.
 .UNINDENT
@@ -267,14 +254,14 @@ Prints the lens redshift and deflection maps origin
 .INDENT 7.0
 .TP
 .B make_azimuthal_map()
-Produces an azimuthal map, in kpc, centrered in \(aqcx\(aq,\(aqcy\(aq and assuming a ratio of
-\(aqq\(aq between the minor and major axis, with the major axis in the \(aqpa\(aq direction.
+Produces an azimuthal map, in kpc, centrered in ‘cx’,’cy’ and assuming a ratio of
+‘q’ between the minor and major axis, with the major axis in the ‘pa’ direction.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B make_distance_map()
-Produces a distance map, in kpc, centrered in \(aqcx\(aq,\(aqcy\(aq and assuming a ratio of
-\(aqq\(aq between the minor and major axis, with the major axis in the \(aqpa\(aq direction.
+Produces a distance map, in kpc, centrered in ‘cx’,’cy’ and assuming a ratio of
+‘q’ between the minor and major axis, with the major axis in the ‘pa’ direction.
 .UNINDENT
 .INDENT 7.0
 .TP
@@ -298,39 +285,39 @@ with r the radius in kpc, Delta Z the gradient in dex/kpc, Z_0 the central metal
 .B Parameters
 .INDENT 7.0
 .IP \(bu 2
-\fBcx\fP (\fI\%int\fP) \-\- x position of the centre (in pixels)
+\fBcx\fP (\fI\%int\fP) – x position of the centre (in pixels)
 .IP \(bu 2
-\fBcy\fP (\fI\%int\fP) \-\- y position of the centre (in pixels)
+\fBcy\fP (\fI\%int\fP) – y position of the centre (in pixels)
 .IP \(bu 2
-\fBq\fP (\fI\%float\fP) \-\- axis ratio (a/b)
+\fBq\fP (\fI\%float\fP) – axis ratio (a/b)
 .IP \(bu 2
-\fBpa\fP (\fI\%float\fP) \-\- Position angle (0 North, +90 East )
+\fBpa\fP (\fI\%float\fP) – Position angle (0 North, +90 East )
 .IP \(bu 2
-\fBz_grad\fP (\fI\%float\fP) \-\- Gradient in dex/kpc.
+\fBz_grad\fP (\fI\%float\fP) – Gradient in dex/kpc.
 .IP \(bu 2
-\fBz_0\fP (\fI\%float\fP) \-\- Central metallicity value (value at cx,cy)
+\fBz_0\fP (\fI\%float\fP) – Central metallicity value (value at cx,cy)
 .UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B make_model()
-Makes a model using the current parameters\(aq values and stores it
-in the \(aqdata\(aq attribute
+Makes a model using the current parameters’ values and stores it
+in the ‘data’ attribute
 .UNINDENT
 .INDENT 7.0
 .TP
 .B model_name()
-Returns the model\(aqs name
+Returns the model’s name
 .UNINDENT
 .INDENT 7.0
 .TP
 .B model_parameters(verbose=True)
-Returns the model\(aqs parameters
+Returns the model’s parameters
 .UNINDENT
 .INDENT 7.0
 .TP
 .B print_parameter_values()
-Returns the model\(aqs parameters values
+Returns the model’s parameters values
 .UNINDENT
 .INDENT 7.0
 .TP
@@ -339,7 +326,7 @@ Updates the parameters of the model.
 .INDENT 7.0
 .TP
 .B Parameters
-\fBpar\fP (\fIdictionary\fP) \-\- dictionary in the shape {\(aqname\(aq:parameter_name, \(aqvalue\(aq:parameter value}
+\fBpar\fP (\fIdictionary\fP) – dictionary in the shape {‘name’:parameter_name, ‘value’:parameter value}
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -361,41 +348,41 @@ For r < r_flat, the metallicity is constant.
 .B Parameters
 .INDENT 7.0
 .IP \(bu 2
-\fBcx\fP (\fI\%int\fP) \-\- x position of the centre (in pixels)
+\fBcx\fP (\fI\%int\fP) – x position of the centre (in pixels)
 .IP \(bu 2
-\fBcy\fP (\fI\%int\fP) \-\- y position of the centre (in pixels)
+\fBcy\fP (\fI\%int\fP) – y position of the centre (in pixels)
 .IP \(bu 2
-\fBq\fP (\fI\%float\fP) \-\- axis ratio (a/b)
+\fBq\fP (\fI\%float\fP) – axis ratio (a/b)
 .IP \(bu 2
-\fBpa\fP (\fI\%float\fP) \-\- Position angle (0 North, +90 East )
+\fBpa\fP (\fI\%float\fP) – Position angle (0 North, +90 East )
 .IP \(bu 2
-\fBz_grad\fP (\fI\%float\fP) \-\- Gradient in dex/kpc.
+\fBz_grad\fP (\fI\%float\fP) – Gradient in dex/kpc.
 .IP \(bu 2
-\fBz_0\fP (\fI\%float\fP) \-\- Central metallicity value (value at cx,cy)
+\fBz_0\fP (\fI\%float\fP) – Central metallicity value (value at cx,cy)
 .IP \(bu 2
-\fBr_flat\fP (\fI\%float\fP) \-\- Radius that delimits the central zone where the metallicity is flat
+\fBr_flat\fP (\fI\%float\fP) – Radius that delimits the central zone where the metallicity is flat
 .UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B make_model()
-Makes a model using the current parameters\(aq values and stores it
-in the \(aqdata\(aq attribute
+Makes a model using the current parameters’ values and stores it
+in the ‘data’ attribute
 .UNINDENT
 .INDENT 7.0
 .TP
 .B model_name()
-Returns the model\(aqs name
+Returns the model’s name
 .UNINDENT
 .INDENT 7.0
 .TP
 .B model_parameters(verbose=True)
-Returns the model\(aqs parameters
+Returns the model’s parameters
 .UNINDENT
 .INDENT 7.0
 .TP
 .B print_parameter_values()
-Returns the model\(aqs parameters values
+Returns the model’s parameters values
 .UNINDENT
 .INDENT 7.0
 .TP
@@ -404,7 +391,7 @@ Updates the parameters of the model.
 .INDENT 7.0
 .TP
 .B Parameters
-\fBpar\fP (\fIdictionary\fP) \-\- dictionary in the shape {\(aqname\(aq:parameter_name, \(aqvalue\(aq:parameter value}
+\fBpar\fP (\fIdictionary\fP) – dictionary in the shape {‘name’:parameter_name, ‘value’:parameter value}
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -424,39 +411,39 @@ with r the radius in kpc, v_t the terminal velocity and r_t the transition radiu
 .B Parameters
 .INDENT 7.0
 .IP \(bu 2
-\fBcx\fP (\fI\%int\fP) \-\- x position of the centre (in pixels)
+\fBcx\fP (\fI\%int\fP) – x position of the centre (in pixels)
 .IP \(bu 2
-\fBcy\fP (\fI\%int\fP) \-\- y position of the centre (in pixels)
+\fBcy\fP (\fI\%int\fP) – y position of the centre (in pixels)
 .IP \(bu 2
-\fBq\fP (\fI\%float\fP) \-\- axis ratio (a/b)
+\fBq\fP (\fI\%float\fP) – axis ratio (a/b)
 .IP \(bu 2
-\fBpa\fP (\fI\%float\fP) \-\- Position angle (0 North, +90 East )
+\fBpa\fP (\fI\%float\fP) – Position angle (0 North, +90 East )
 .IP \(bu 2
-\fBv_t\fP (\fI\%float\fP) \-\- Terminal velocity in km/s.
+\fBv_t\fP (\fI\%float\fP) – Terminal velocity in km/s.
 .IP \(bu 2
-\fBr_t\fP (\fI\%float\fP) \-\- transition radius in kpc.
+\fBr_t\fP (\fI\%float\fP) – transition radius in kpc.
 .UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B make_model()
-Makes a model using the current parameters\(aq values and stores it
-in the \(aqdata\(aq attribute
+Makes a model using the current parameters’ values and stores it
+in the ‘data’ attribute
 .UNINDENT
 .INDENT 7.0
 .TP
 .B model_name()
-Returns the model\(aqs name
+Returns the model’s name
 .UNINDENT
 .INDENT 7.0
 .TP
 .B model_parameters(verbose=True)
-Returns the model\(aqs parameters
+Returns the model’s parameters
 .UNINDENT
 .INDENT 7.0
 .TP
 .B print_parameter_values()
-Returns the model\(aqs parameters values
+Returns the model’s parameters values
 .UNINDENT
 .INDENT 7.0
 .TP
@@ -465,11 +452,11 @@ Updates the parameters of the model.
 .INDENT 7.0
 .TP
 .B Parameters
-\fBpar\fP (\fIdictionary\fP) \-\- dictionary in the shape {\(aqname\(aq:parameter_name, \(aqvalue\(aq:parameter value}
+\fBpar\fP (\fIdictionary\fP) – dictionary in the shape {‘name’:parameter_name, ‘value’:parameter value}
 .UNINDENT
 .UNINDENT
 .UNINDENT
-.SS Fitting
+.SH FITTING
 .INDENT 0.0
 .TP
 .B frapy.fit_model.fit_model(obs, model, parameters, outputname, nsteps=1000, nwalkers=24, mask=None, binning_map=None)
@@ -489,8 +476,8 @@ classes from frapy.
 .sp
 The \fIparameters\fP input is a dictionary in the shape:
 .sp
-parameters = {parameter_name1:{\(aqvalue\(aq:X, \(aqmin\(aq:Y, \(aqmax\(aq:Z}, parameter_name2:{\(aqvalue\(aq:A, \(aqmin\(aq:B,
-\(aqmax\(aq:C},...}
+parameters = {parameter_name1:{‘value’:X, ‘min’:Y, ‘max’:Z}, parameter_name2:{‘value’:A, ‘min’:B,
+‘max’:C},…}
 .sp
 where the parameter_name variables should correspond to the parameters in the model being used;
 value is the starting value of each parameter; and min and max the minimum and maximum values
@@ -512,30 +499,30 @@ included in the binning) should be given negative values. These are not included
 .B Parameters
 .INDENT 7.0
 .IP \(bu 2
-\fBobs\fP (\fI\%Observation\fP) \-\- An instance of the Observation class
+\fBobs\fP (\fI\%Observation\fP) – An instance of the Observation class
 .IP \(bu 2
-\fBmodel\fP (\fI\%Metallicity_Gradient\fP\fI,\fP\fIVelocity\fP) \-\- A frapy model (based in the BaseModel class)
+\fBmodel\fP (\fI\%Metallicity_Gradient\fP\fI,\fP\fIVelocity\fP) – A frapy model (based in the BaseModel class)
 .IP \(bu 2
-\fBparameters\fP (\fIdictionary\fP) \-\- A dictionary containing the parameters of the model to be varied and their limits. Parameters not
+\fBparameters\fP (\fIdictionary\fP) – A dictionary containing the parameters of the model to be varied and their limits. Parameters not
 in this dictionary will not be varied.
 .IP \(bu 2
-\fBoutputname\fP (\fI\%str\fP) \-\- Name of the output pickle file.
+\fBoutputname\fP (\fI\%str\fP) – Name of the output pickle file.
 .IP \(bu 2
-\fBnsteps\fP (\fI\%int\fP) \-\- number of steps of the emcee walkers. Default: 1000
+\fBnsteps\fP (\fI\%int\fP) – number of steps of the emcee walkers. Default: 1000
 .IP \(bu 2
-\fBnwalkers\fP (\fI\%int\fP) \-\- Number of emcee walkers. Default: 24
+\fBnwalkers\fP (\fI\%int\fP) – Number of emcee walkers. Default: 24
 .IP \(bu 2
-\fBmask\fP (\fIarray int\fP) \-\- Array of the same shape as the data containing only zeros (masked values) or ones (valid values).
+\fBmask\fP (\fIarray int\fP) – Array of the same shape as the data containing only zeros (masked values) or ones (valid values).
 Optional.
 .IP \(bu 2
-\fBbinning_map\fP (\fIarray int\fP) \-\- Array of the same shape as the data containing encoding the pixels that were groupped togther.
+\fBbinning_map\fP (\fIarray int\fP) – Array of the same shape as the data containing encoding the pixels that were groupped togther.
 Optional.
 .UNINDENT
 .TP
 .B Returns
 .INDENT 7.0
 .IP \(bu 2
-\fIReturns a dictionary with\fP \-\- sampler chain
+\fIReturns a dictionary with\fP – sampler chain
 sampler lnprobability
 parameter names in the correct order
 input parameters
@@ -549,7 +536,7 @@ the model
 
 .UNINDENT
 .UNINDENT
-.SS Explore the output
+.SH EXPLORE THE OUTPUT
 .INDENT 0.0
 .TP
 .B class frapy.check_fit.Output(outfile)
@@ -566,13 +553,13 @@ Reads the pickle output and allows to plot:
 .INDENT 7.0
 .TP
 .B Parameters
-\fBoutfile\fP (\fI\%str\fP) \-\- The name of the pickle file being inspected (without the \(aq.pickle\(aq extension)
+\fBoutfile\fP (\fI\%str\fP) – The name of the pickle file being inspected (without the ‘.pickle’ extension)
 .UNINDENT
 .INDENT 7.0
 .TP
 .B best_parameters(start=0)
 Calculates the  16th, 50th and 84th percentiles for each parameter.
-Only uses iterations after \(aqstart\(aq
+Only uses iterations after ‘start’
 .UNINDENT
 .INDENT 7.0
 .TP
@@ -590,11 +577,11 @@ values.
 .INDENT 7.0
 .TP
 .B Parameters
-\fBbest_parameters\fP (\fIdictionary\fP) \-\- Dictionary in the shape {parameter_name1:{value:X,min:Z,max:Z},parameter_name2:{value:X,min:Z,max:Z}}
+\fBbest_parameters\fP (\fIdictionary\fP) – Dictionary in the shape {parameter_name1:{value:X,min:Z,max:Z},parameter_name2:{value:X,min:Z,max:Z}}
 (from the check_fit.best_parameters function, for example).
 .TP
 .B Returns
-\fBchi2/dof\fP \-\- Reduced chi2
+\fBchi2/dof\fP – Reduced chi2
 .TP
 .B Return type
 \fI\%float\fP
@@ -604,7 +591,7 @@ values.
 .TP
 .B make_cornerplot(start=0)
 Makes a corner plot of the results.
-Only uses iterations after \(aqstart\(aq
+Only uses iterations after ‘start’
 .UNINDENT
 .INDENT 7.0
 .TP
@@ -613,21 +600,21 @@ Given a dictionary with parameter names and values, plots the model.
 .INDENT 7.0
 .TP
 .B Parameters
-\fBbest_parameters\fP (\fIdictionary\fP) \-\- Dictionary in the shape {parameter_name1:{value:X,min:Z,max:Z},parameter_name2:{value:X,min:Z,max:Z}}
+\fBbest_parameters\fP (\fIdictionary\fP) – Dictionary in the shape {parameter_name1:{value:X,min:Z,max:Z},parameter_name2:{value:X,min:Z,max:Z}}
 (from the check_fit.best_parameters function, for example).
 .TP
 .B Returns
 .INDENT 7.0
 .IP \(bu 2
-\fBmodel\fP (\fIarray float\fP) \-\- the model with the best parameters
+\fBmodel\fP (\fIarray float\fP) – the model with the best parameters
 .IP \(bu 2
-\fBresiduals\fP (\fIarray float\fP) \-\- the residuals (data \- model)
+\fBresiduals\fP (\fIarray float\fP) – the residuals (data \- model)
 .UNINDENT
 
 .UNINDENT
 .UNINDENT
 .UNINDENT
-.SS Miscelaneous
+.SH MISCELANEOUS
 .sp
 This module containts miscelaneous functions used in the fitting.
 .INDENT 0.0
@@ -638,9 +625,9 @@ Outputs a parameter dictionary to be used in the fit_model function.
 This dictionary has the following form:
 .INDENT 7.0
 .INDENT 3.5
-{parameter_name1:{\(aqvalue\(aq:X, \(aqmin\(aq:Y, \(aqmax\(aq:Z},
-parameter_name2:{\(aqvalue\(aq:A, \(aqmin\(aq:B, \(aqmax\(aq:C},
-...
+{parameter_name1:{‘value’:X, ‘min’:Y, ‘max’:Z},
+parameter_name2:{‘value’:A, ‘min’:B, ‘max’:C},
+…
 }
 .UNINDENT
 .UNINDENT
@@ -649,13 +636,13 @@ parameter_name2:{\(aqvalue\(aq:A, \(aqmin\(aq:B, \(aqmax\(aq:C},
 .B Parameters
 .INDENT 7.0
 .IP \(bu 2
-\fBname\fP (\fIarray str\fP) \-\- An array of strings containing the names of the model\(aqs parameters to be fitted.
+\fBname\fP (\fIarray str\fP) – An array of strings containing the names of the model’s parameters to be fitted.
 .IP \(bu 2
-\fBvalue\fP (\fIarray float\fP) \-\- The initial values of these parameters (ACTUALLY NOT USED)
+\fBvalue\fP (\fIarray float\fP) – The initial values of these parameters (ACTUALLY NOT USED)
 .IP \(bu 2
-\fBminimum\fP (\fIarray float\fP) \-\- The minimum value allowed for each parameter
+\fBminimum\fP (\fIarray float\fP) – The minimum value allowed for each parameter
 .IP \(bu 2
-\fBmaximum\fP (\fIarray float\fP) \-\- The maximum value allowed for each parameter
+\fBmaximum\fP (\fIarray float\fP) – The maximum value allowed for each parameter
 .UNINDENT
 .TP
 .B Returns
