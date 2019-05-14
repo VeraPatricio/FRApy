@@ -1,11 +1,6 @@
 """
 The BaseModel handles all the lensing part, producing a distance map 
-that is used by all the other models. At the moment, the following
-models are implemented:
-
-    * Metallcity gradient
-
-    * Arctangent velocity
+that is used by all the other models. 
 """
 
 import numpy as np
@@ -461,7 +456,7 @@ class Velocity_Arctangent(BaseModel):
     This model inherits the distance and azimuthal maps, from which an arctangent model
     of the velocity at each point is calculated assuming the following formulae:
 
-    $V(r) = v_t \frac{2}{\pi} arctan (\frac{2r}{r_t})$
+    V(r) = v_t \\frac{2}{\pi} arctan (\\frac{2r}{r_t})
 
     with r the radius in kpc, v_t the terminal velocity and r_t the transition radius. 
 

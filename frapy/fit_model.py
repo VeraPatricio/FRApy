@@ -17,11 +17,11 @@ def fit_model(obs,model,parameters,outputname,nsteps=1000,nwalkers=24,mask=None,
     We make use of the emcee sampler (http://dfm.io/emcee/current/) to fit the free parameters of
     the model to the observations. We are maximising the following log-probabiluty function:
 
-    $$ln(probability) = ln(priors) + ln(likelihood)$$
+    $ln(probability) = ln(priors) + ln(likelihood)$
         
     with the log likelohood function as:
-   
-    $$ln(likelihood) = -\frac{1}{2} ( \frac{(data-model)^2}{uncertainty^2} + ln(2 pi uncertainty^2))$$
+
+    $ln(likelihood) = -\\frac{1}{2} ( \\frac{(data-model)^2}{uncertainty^2} + ln(2 pi uncertainty^2))$
    
     Both the model and the observations should be instances of the Observations and BaseModel 
     classes from frapy.
@@ -82,6 +82,7 @@ def fit_model(obs,model,parameters,outputname,nsteps=1000,nwalkers=24,mask=None,
             the model
         
         This is also saved as a pickles file.
+
     """
 
     start_time = time.time()
