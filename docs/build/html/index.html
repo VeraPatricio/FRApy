@@ -307,14 +307,7 @@ of the object and the seeing.</p>
 <div class="section" id="module-frapy.models">
 <span id="models"></span><h3>Models<a class="headerlink" href="#module-frapy.models" title="Permalink to this headline">¶</a></h3>
 <p>The BaseModel handles all the lensing part, producing a distance map
-that is used by all the other models. At the moment, the following
-models are implemented:</p>
-<blockquote>
-<div><ul class="simple">
-<li>Metallcity gradient</li>
-<li>Arctangent velocity</li>
-</ul>
-</div></blockquote>
+that is used by all the other models.</p>
 <dl class="class">
 <dt id="frapy.models.BaseModel">
 <em class="property">class </em><code class="descclassname">frapy.models.</code><code class="descname">BaseModel</code><span class="sig-paren">(</span><em>zlens</em>, <em>dfx_path</em>, <em>dfy_path</em>, <em>df_ang=0</em>, <em>cx=0</em>, <em>cy=0</em>, <em>q=1</em>, <em>pa=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#BaseModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.BaseModel" title="Permalink to this definition">¶</a></dt>
@@ -528,30 +521,26 @@ in the ‘data’ attribute</p>
 <dt id="frapy.models.Velocity_Arctangent">
 <em class="property">class </em><code class="descclassname">frapy.models.</code><code class="descname">Velocity_Arctangent</code><span class="sig-paren">(</span><em>zlens</em>, <em>dfx_path</em>, <em>dfy_path</em>, <em>cx=0</em>, <em>cy=0</em>, <em>q=1</em>, <em>pa=0</em>, <em>v_t=100</em>, <em>r_t=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#Velocity_Arctangent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.Velocity_Arctangent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Exponential velocity model.</p>
-<blockquote>
-<div><p>This model inherits the distance and azimuthal maps, from which an arctangent model
+<p>This model inherits the distance and azimuthal maps, from which an arctangent model
 of the velocity at each point is calculated assuming the following formulae:</p>
-<p>$V(r) = v_t</p>
-</div></blockquote>
-<p>rac{2}{pi} arctan (
-rac{2r}{r_t})$</p>
-<blockquote>
-<div><p>with r the radius in kpc, v_t the terminal velocity and r_t the transition radius.</p>
-<dl class="docutils">
-<dt>cx: int</dt>
-<dd>x position of the centre (in pixels)</dd>
-<dt>cy: int</dt>
-<dd>y position of the centre (in pixels)</dd>
-<dt>q: float</dt>
-<dd>axis ratio (a/b)</dd>
-<dt>pa: float</dt>
-<dd>Position angle (0 North, +90 East )</dd>
-<dt>v_t: float</dt>
-<dd>Terminal velocity in km/s.</dd>
-<dt>r_t: float</dt>
-<dd>transition radius in kpc.</dd>
-</dl>
-</div></blockquote>
+<p>V(r) = v_t frac{2}{pi} arctan (frac{2r}{r_t})</p>
+<p>with r the radius in kpc, v_t the terminal velocity and r_t the transition radius.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cx</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – x position of the centre (in pixels)</li>
+<li><strong>cy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – y position of the centre (in pixels)</li>
+<li><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – axis ratio (a/b)</li>
+<li><strong>pa</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Position angle (0 North, +90 East )</li>
+<li><strong>v_t</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Terminal velocity in km/s.</li>
+<li><strong>r_t</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – transition radius in kpc.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="frapy.models.Velocity_Arctangent.make_model">
 <code class="descname">make_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/models.html#Velocity_Arctangent.make_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.models.Velocity_Arctangent.make_model" title="Permalink to this definition">¶</a></dt>
@@ -599,18 +588,13 @@ in the ‘data’ attribute</p>
 <dl class="function">
 <dt id="frapy.fit_model.fit_model">
 <code class="descclassname">frapy.fit_model.</code><code class="descname">fit_model</code><span class="sig-paren">(</span><em>obs</em>, <em>model</em>, <em>parameters</em>, <em>outputname</em>, <em>nsteps=1000</em>, <em>nwalkers=24</em>, <em>mask=None</em>, <em>binning_map=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frapy/fit_model.html#fit_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frapy.fit_model.fit_model" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>Routine that fits the observations using a given model and the emcee sampler.</p>
+<dd><p>Routine that fits the observations using a given model and the emcee sampler.</p>
 <p>We make use of the emcee sampler (<a class="reference external" href="http://dfm.io/emcee/current/">http://dfm.io/emcee/current/</a>) to fit the free parameters of
 the model to the observations. We are maximising the following log-probabiluty function:</p>
-<p>$$ln(probability) = ln(priors) + ln(likelihood)$$</p>
+<p>$ln(probability) = ln(priors) + ln(likelihood)$</p>
 <p>with the log likelohood function as:</p>
-<p>$$ln(likelihood) = -</p>
-</div></blockquote>
-<p>rac{1}{2} (
-rac{(data-model)^2}{uncertainty^2} + ln(2 pi uncertainty^2))$$</p>
-<blockquote>
-<div><p>Both the model and the observations should be instances of the Observations and BaseModel
+<p>$ln(likelihood) = -frac{1}{2} ( frac{(data-model)^2}{uncertainty^2} + ln(2 pi uncertainty^2))$</p>
+<p>Both the model and the observations should be instances of the Observations and BaseModel
 classes from frapy.</p>
 <p>The <em>parameters</em> input is a dictionary in the shape:</p>
 <p>parameters = {parameter_name1:{‘value’:X, ‘min’:Y, ‘max’:Z}, parameter_name2:{‘value’:A, ‘min’:B,
@@ -628,42 +612,41 @@ analysed as a single pixel and that value taken as the value of all the pixels g
 possible to include this information using a <em>binning_map</em>. This should be a 2D array in which
 pixels of the same bin are given the same value. Pixels in the image that were not analysed (not
 included in the binning) should be given negative values. These are not included in the minimisation.</p>
-<dl class="docutils">
-<dt>obs: Observation</dt>
-<dd>An instance of the Observation class</dd>
-<dt>model: Metallicity_Gradient,Velocity</dt>
-<dd>A frapy model (based in the BaseModel class)</dd>
-<dt>parameters: dictionary</dt>
-<dd>A dictionary containing the parameters of the model to be varied and their limits. Parameters not
-in this dictionary will not be varied.</dd>
-<dt>outputname: str</dt>
-<dd>Name of the output pickle file.</dd>
-<dt>nsteps: int</dt>
-<dd>number of steps of the emcee walkers. Default: 1000</dd>
-<dt>nwalkers: int</dt>
-<dd>Number of emcee walkers. Default: 24</dd>
-<dt>mask: array int</dt>
-<dd>Array of the same shape as the data containing only zeros (masked values) or ones (valid values).
-Optional.</dd>
-<dt>binning_map: array int</dt>
-<dd>Array of the same shape as the data containing encoding the pixels that were groupped togther.
-Optional.</dd>
-</dl>
-<blockquote>
-<div><dl class="docutils">
-<dt>Returns a dictionary with:</dt>
-<dd>sampler chain
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>obs</strong> (<a class="reference internal" href="#frapy.observations.Observation" title="frapy.observations.Observation"><em>Observation</em></a>) – An instance of the Observation class</li>
+<li><strong>model</strong> (<a class="reference internal" href="#frapy.models.Metallicity_Gradient" title="frapy.models.Metallicity_Gradient"><em>Metallicity_Gradient</em></a><em>,</em><em>Velocity</em>) – A frapy model (based in the BaseModel class)</li>
+<li><strong>parameters</strong> (<em>dictionary</em>) – A dictionary containing the parameters of the model to be varied and their limits. Parameters not
+in this dictionary will not be varied.</li>
+<li><strong>outputname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of the output pickle file.</li>
+<li><strong>nsteps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – number of steps of the emcee walkers. Default: 1000</li>
+<li><strong>nwalkers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of emcee walkers. Default: 24</li>
+<li><strong>mask</strong> (<em>array int</em>) – Array of the same shape as the data containing only zeros (masked values) or ones (valid values).
+Optional.</li>
+<li><strong>binning_map</strong> (<em>array int</em>) – Array of the same shape as the data containing encoding the pixels that were groupped togther.
+Optional.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><em>Returns a dictionary with</em> – sampler chain
 sampler lnprobability
 parameter names in the correct order
 input parameters
 the mask used
 the binning map used
 the observations
-the model</dd>
-</dl>
-<p>This is also saved as a pickles file.</p>
-</div></blockquote>
-</div></blockquote>
+the model</li>
+<li><em>This is also saved as a pickles file.</em></li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

@@ -158,11 +158,11 @@
 <span class="sd">    We make use of the emcee sampler (http://dfm.io/emcee/current/) to fit the free parameters of</span>
 <span class="sd">    the model to the observations. We are maximising the following log-probabiluty function:</span>
 
-<span class="sd">    $$ln(probability) = ln(priors) + ln(likelihood)$$</span>
+<span class="sd">    $ln(probability) = ln(priors) + ln(likelihood)$</span>
 <span class="sd">        </span>
 <span class="sd">    with the log likelohood function as:</span>
-<span class="sd">   </span>
-<span class="sd">    $$ln(likelihood) = -\frac{1}{2} ( \frac{(data-model)^2}{uncertainty^2} + ln(2 pi uncertainty^2))$$</span>
+
+<span class="sd">    $ln(likelihood) = -\\frac{1}{2} ( \\frac{(data-model)^2}{uncertainty^2} + ln(2 pi uncertainty^2))$</span>
 <span class="sd">   </span>
 <span class="sd">    Both the model and the observations should be instances of the Observations and BaseModel </span>
 <span class="sd">    classes from frapy.</span>
@@ -223,6 +223,7 @@
 <span class="sd">            the model</span>
 <span class="sd">        </span>
 <span class="sd">        This is also saved as a pickles file.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
