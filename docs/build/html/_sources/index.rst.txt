@@ -119,9 +119,9 @@ and don't forget `astropy <http://www.astropy.org/>`_ and `emcee <http://dfm.io/
 Code Documentation 
 =================================
 
-.. toctree::
+'''.. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Contents:'''
 
 
 Observations
